@@ -114,3 +114,6 @@ README〜ER図作成：５月９日〆切
 
 ■画面遷移図のリンク
 https://www.figma.com/file/tAEjbnnAPkLeq1kQHjviom/%E3%83%9D%E3%83%BC%E3%83%88%E3%83%95%E3%82%A9%E3%83%AA%E3%82%AA%E3%82%B5%E3%82%A4%E3%83%88?node-id=181%3A309&t=nDr5ZdfRLQv28lzU-1
+
+■ER図のリンク
+https://drive.google.com/file/d/1rBrKFITLlNlu5AekEn3oeZGrs6FZNMyq/view?usp=sharing
