@@ -6,6 +6,7 @@
 
 # Ignore bundler config.
 /.bundle
+/vendor/bundle/
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -35,4 +36,7 @@
 
 /node_modules
 
-/vendor/bundle/
+# Ignore yarn files
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
