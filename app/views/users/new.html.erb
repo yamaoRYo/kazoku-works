@@ -3,7 +3,6 @@
   <div class="w-100 align-self-end pt-1 pt-md-4 pb-4" style="max-width: 526px;">
     <h1 class="text-center text-xl-start">新規登録</h1>
     <p class="text-center text-xl-start pb-3 mb-3">Already have an account? <a href="account-signin.html">Sign in here.</a></p>
-    <form class="needs-validation" novalidate>
     <%= form_with model: @user, local: true, html: {class: "needs-validation"} do |f| %>
       <div class="row">
         <div class="col-12 mb-4">
