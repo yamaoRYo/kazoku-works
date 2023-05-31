@@ -4,19 +4,15 @@
     <h1 class="text-center text-xl-start">新規登録</h1>
     <p class="text-center text-xl-start pb-3 mb-3">Already have an account? <a href="account-signin.html">Sign in here.</a></p>
     <form class="needs-validation" novalidate>
-    <%= form_with model: @users, local: true, html: {class: "needs-validation"} do |f| %>
+    <%= form_with model: @user, local: true, html: {class: "needs-validation"} do |f| %>
       <div class="row">
-        <div class="col-sm-6">
-          <div class="position-relative mb-4">
-            <%= f.label :name, class: "form-label fs-base" %>
-            <%= f.text_field :name, class: "form-control form-control-lg" %>
-          </div>
+        <div class="col-12 mb-4">
+          <%= f.label :name, class: "form-label fs-base" %>
+          <%= f.text_field :name, class: "form-control form-control-lg" %>
         </div>
-        <div class="col-sm-6">
-          <div class="position-relative mb-4">
-            <%= f.label :email, class:"form-label fs-base" %>
-            <%= f.email_field :email, class:"form-control form-control-lg" %>
-          </div>
+        <div class="col-12 mb-4">
+          <%= f.label :email, class:"form-label fs-base" %>
+          <%= f.email_field :email, class:"form-control form-control-lg" %>
         </div>
         <div class="col-12 mb-4">
           <%= f.label :password, class: "form-label fs-base" %>
