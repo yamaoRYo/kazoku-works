@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
+  # 所属していないことを許可する設定
+  belongs_to :family, optional: true
 
   validates :name, presence: true, length: { maximum: 50, allow_blank: true}
   validates :email, presence: true, uniqueness: true

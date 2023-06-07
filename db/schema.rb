@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_01_062629) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_06_070038) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,7 +28,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_01_062629) do
     t.string "salt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "family_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["family_id"], name: "index_users_on_family_id"
   end
 
+  add_foreign_key "users", "families"
 end
