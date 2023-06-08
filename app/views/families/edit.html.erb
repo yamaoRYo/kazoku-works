@@ -1,0 +1,23 @@
+<!-- Edit form -->
+<div class="container">
+  <div class="row justify-content-center pt-5">
+    <div class="col-lg-6 col-md-8 col-12 pt-1 pt-md-4 pb-4">
+      <h1 class="text-center text-xl-start">家族情報</h1>
+      <%= form_with model: @family, local: true, html: { class: "needs-validation", novalidate: true } do |f| %> 
+        <div class="position-relative mb-4">
+          <div class="form-floating mb-3">
+            <%= f.text_field :name, class: "form-control", id: "floatingInput", placeholder: " ", required: true %>
+            <%= f.label :name, class: "form-label", for: "floatingInput" %>
+            <div class="invalid-tooltip">お名前を入力してください</div>
+          </div>
+          <div class="form-floating mb-3">
+            <%= f.date_field :established_date, class: "form-control", id: "floatingDate", placeholder: " ", required: true %>
+            <%= f.label :established_date, "設立日", class: "form-label", for: "floatingDate" %>
+            <div class="invalid-tooltip">設立日を入力してください</div>
+          </div>
+          <%= f.submit "更新", class: "btn btn-primary mt-3" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
