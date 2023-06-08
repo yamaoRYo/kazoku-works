@@ -7,16 +7,19 @@
     <% end %>
     <div id="navbarNav" class="offcanvas offcanvas-end">
       <div class="offcanvas-header border-top">
-        <%= link_to '会員登録', new_user_path, class: 'btn btn-primary btn-sm fs-sm rounded d-none d-lg-inline-flex' %>
+        <%= link_to '会員登録', new_user_path, class: 'btn btn-primary shadow-primary btn-sm fs-sm rounded d-none d-lg-inline-flex me-3' %>
       </div>
     </div>
     <% if logged_in? %>
-      <%= link_to 'ログアウト', logout_path, class: 'btn btn-secondary btn-sm fs-sm rounded d-none d-lg-inline-flex', data: { turbo_method: :delete} %>
+      <% if current_user.family.present? %>
+        <%= link_to '家族情報編集', edit_family_path(current_user.family), class: 'btn btn-primary shadow-primary btn-sm fs-sm rounded d-none d-lg-inline-flex me-3' %>
+      <% end %>
+      <%= link_to 'ログアウト', logout_path, class: 'btn btn-secondary shadow-secondary btn-sm fs-sm rounded d-none d-lg-inline-flex', data: { turbo_method: :delete} %>
     <% else %>
       <div class="form-check form-switch mode-switch pe-lg-1 ms-auto me-4" data-bs-toggle="mode">
-        <%= link_to 'ログイン', login_path, class: 'btn btn-secondary btn-sm fs-sm rounded d-none d-lg-inline-flex' %>
+        <%= link_to 'ログイン', login_path, class: 'btn btn-secondary shadow-secondary btn-sm fs-sm rounded d-none d-lg-inline-flex' %>
       </div>
-        <%= link_to '会員登録', new_user_path, class: 'btn btn-primary btn-sm fs-sm rounded d-none d-lg-inline-flex' %>
+        <%= link_to '会員登録', new_user_path, class: 'btn btn-primary shadow-primary btn-sm fs-sm rounded d-none d-lg-inline-flex' %>
       </div>
     <% end %>
   </div>
