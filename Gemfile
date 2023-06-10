@@ -75,3 +75,4 @@ group :test do
 end
 
 gem "sorcery", "~> 0.16.5"
+gem "bootstrap_form", "~> 5.2"
