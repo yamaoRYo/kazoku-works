@@ -1,19 +1,29 @@
 <% provide(:title, 'Family') %>
-<h1><%= yield(:title) %></h1>
+<div class="container mt-5">
+  <h1 class="mb-4"><%= yield(:title) %></h1>
 
-<% if @family %>
-  <h3>Family Name:</h3>
-    <h3><%= @family.name %></h3>
-  
+  <% if @family %>
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">Family Name:</h3>
+        <turbo-frame id="family_name">
+          <h4 class="card-subtitle mb-2 text-muted"><%= @family.name %></h4>
+          <%= link_to "Edit", edit_family_path(@family), data: { turbo_action: 'replace', turbo_frame: 'family_name' }, class: "btn btn-primary" %>
+        </turbo-frame>
 
-  <h3>Members:</h3>
-  <ul>
-    <% @family.users.each do |user| %>
-      <li><%= user.name %></li>
-    <% end %>
-  </ul>
-<% else %>
-  <h3>Kazoku-worksへようこそ</h3>
-    <p>家族を作成してください</p>
-    <%= link_to "家族作成", new_family_path %>
-<% end %>
+        <h3 class="card-title mt-4">Members:</h3>
+        <ul class="list-group list-group-flush">
+          <% @family.users.each do |user| %>
+            <li class="list-group-item"><%= user.name %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% else %>
+    <div class="alert alert-info" role="alert">
+      <h3>Welcome to Kazoku-works</h3>
+      <p>Please create a family.</p>
+      <%= link_to "Create Family", new_family_path, class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
