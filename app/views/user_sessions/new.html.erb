@@ -1,5 +1,9 @@
 <% provide(:title, 'Login') %>
 
+<% if @error_message %>
+  <div class="alert alert-danger"><%= @error_message %></div>
+<% end %>
+
 <!-- Sign in form -->
 <div class="container">
   <div class="row justify-content-center pt-5">
@@ -8,10 +12,7 @@
       <p class="text-center text-xl-start pb-3 mb-3"><%= link_to "会員登録がお済みでない方はこちらをクリック", new_user_path %></p>
       <%= bootstrap_form_with(url: login_path) do |f| %>
         <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true %>
-          <div class="invalid-feedback position-absolute start-0 top-100">有効なメールアドレスを入力してください</div>
         <%= f.password_field :password, autocomplete: "current-password", required: true %>
-          <span class="password-toggle-indicator"></span>
-          <div class="invalid-feedback position-absolute start-0 top-100">このパスワードは無効です</div>
         <%= f.check_box :remember_me, class: "form-check-input", id: "remember" %>
         <%= f.submit "ログイン" %>
       <% end %>
