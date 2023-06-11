@@ -5,15 +5,13 @@ module ApplicationHelper
   end
 
   def bootstrap_class_for(flash_type)
-    case flash_type
-    when "success"
-      "success"  # green
-    when "error"
-      "danger"   # red
-    when "alert"
-      "warning"  # yellow
-    when "notice"
-      "info"     # blue
+    case flash_type.to_sym
+    when :success
+      "success"
+    when :error, :alert, :danger
+      "danger"
+    when :notice, :info
+      "info"
     else
       flash_type.to_s
     end
