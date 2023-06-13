@@ -29,7 +29,12 @@ class FamiliesController < ApplicationController
   
   def show; end
 
-  def edit; end
+  def edit
+    if current_user.family != @family
+      flash[:alert] = "You are not a member of this family."
+      redirect_to families_path
+    end
+  end
 
   def update
     if @family.update(family_params)
