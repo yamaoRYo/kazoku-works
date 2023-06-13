@@ -2,16 +2,10 @@
   <div class="row justify-content-center pt-5">
     <div class="col-lg-6 col-md-8 col-12 pt-1 pt-md-4 pb-4">
       <h1 class="text-center text-xl-start">家族登録</h1>
-      <%= form_with model: @family, local: true, html: { class: "needs-validation", novalidate: true } do |f| %> 
-        <div class="position-relative mb-4">
-          <%= f.label :name, '家族名', class: "form-label fs-base" %>
-          <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control form-control-lg", required: true %>
-        </div>
-        <div class="mb-4">
-          <%= f.label :established_date, '創立日', class: "form-label fs-base" %>
-          <%= f.date_field :established_date, class: "form-control form-control-lg", required: true %>
-        </div>
-        <%= f.submit "登録", class: "btn btn-primary shadow-primary btn-lg w-100" %>
+      <%= bootstrap_form_with model: @family, html: { class: "needs-validation", novalidate: true } do |f| %> 
+        <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control form-control-lg", required: true %>
+        <%= f.date_field :established_date, class: "form-control form-control-lg", required: true %>
+        <%= f.submit "登録" %>
       <% end %>
     </div>
   </div>

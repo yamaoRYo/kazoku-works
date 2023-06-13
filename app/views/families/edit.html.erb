@@ -1,23 +1,23 @@
-<!-- Edit form -->
-<div class="container">
-  <div class="row justify-content-center pt-5">
-    <div class="col-lg-6 col-md-8 col-12 pt-1 pt-md-4 pb-4">
-      <h1 class="text-center text-xl-start">家族情報</h1>
-      <%= form_with model: @family, local: true, html: { class: "needs-validation", novalidate: true } do |f| %> 
-        <div class="position-relative mb-4">
-          <div class="form-floating mb-3">
-            <%= f.text_field :name, class: "form-control", id: "floatingInput", placeholder: " ", required: true %>
-            <%= f.label :name, class: "form-label", for: "floatingInput" %>
-            <div class="invalid-tooltip">お名前を入力してください</div>
-          </div>
-          <div class="form-floating mb-3">
-            <%= f.date_field :established_date, class: "form-control", id: "floatingDate", placeholder: " ", required: true %>
-            <%= f.label :established_date, "設立日", class: "form-label", for: "floatingDate" %>
-            <div class="invalid-tooltip">設立日を入力してください</div>
-          </div>
-          <%= f.submit "更新", class: "btn btn-primary mt-3" %>
+<div class="container mt-5">
+  <h1 class="mb-4"><%= yield(:title) %></h1>
+  <%= turbo_frame_tag @family do %>
+    <div class="card border-primary card-hover">
+      <div class="card-body">
+        <h3 class="card-title">Family Name</h3>
+        <div style="display: flex; align-items: center;">
+          <%= bootstrap_form_with(model: @family, local: true) do |form| %>
+            <%= form.text_field :name,skip_label: true, class: "form-control" %>
+            <%= form.submit "Update", class: "btn btn-primary", style: "font-size: 0.875rem; padding: 0.2rem 0.5rem;" %>
+            <%= link_to "Cancel", families_path, class: "btn btn-outline-secondary", style: "font-size: 0.875rem; padding: 0.2rem 0.5rem;" %>  
+          <% end %>
         </div>
-      <% end %>
+        <h3 class="card-title mt-4">Members</h3>
+        <ul class="list-group list-group-flush">
+          <% @family.users.each do |user| %>
+            <li class="list-group-item"><%= user.name %></li>
+          <% end %>
+        </ul>
+      </div>
     </div>
-  </div>
+  <% end %>
 </div>

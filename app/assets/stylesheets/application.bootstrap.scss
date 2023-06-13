@@ -1,3 +1,26 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
 @import 'theme.min';
+
+label.required:after {
+  content:" *";
+  color: red;
+}
+
+.flash-message-container {
+  position: fixed;
+  top: 80px; /* トップからの距離を調整 */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+}
+
+.alert {
+  padding-top: 0.5rem; /* 上側のパディングを短く設定 */
+  padding-bottom: 0.5rem; /* 下側のパディングを短く設定 */
+}
+
+.alert .btn-close {
+  margin-top: -0.5rem; /* 閉じるボタンの上側のマージンを調整 */
+  margin-right: -0.5rem; /* 閉じるボタンの右側のマージンを調整 */
+}

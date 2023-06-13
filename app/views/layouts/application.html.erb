@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>KazokuWorks</title>
+  <title><%= content_for?(:title) ? yield(:title) + ' | ': ''%>KazokuWorks</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -10,9 +10,14 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
-  <body>
-    <main class="page-wrapper">
+  <body class="d-flex flex-column vh-100">
+    <main class="page-wrapper mt-5 flex-grow-1">
       <%= render 'shared/header' %>
+      <div class="flash mt-4">
+        <div id="flash">
+          <%= render "layouts/flash" %>
+        </div>
+      </div>
       <%= yield %>
     </main>
     <%= render 'shared/footer' %>

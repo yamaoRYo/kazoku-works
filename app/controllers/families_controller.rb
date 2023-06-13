@@ -23,21 +23,27 @@ class FamiliesController < ApplicationController
       flash[:notice] = "Family created successfully."
       redirect_to families_path
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
   
   def show; end
 
-  def edit; end
+  def edit
+    if current_user.family != @family
+      flash[:alert] = "You are not a member of this family."
+      redirect_to families_path
+    end
+  end
 
   def update
     if @family.update(family_params)
-      redirect_to families_path
+      flash.now[:notice] = "Family updated successfully."
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
+  
 
   private
 

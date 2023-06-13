@@ -1,0 +1,18 @@
+<%= turbo_frame_tag family do %>
+  <div class="card border-primary card-hover">
+    <div class="card-body">
+      <h3 class="card-title">Family Name</h3>
+      <div style="display: flex; align-items: center;">
+        <p class="card-subtitle fs-3"><%= family.name %></p>
+      </div> 
+      <%= link_to "edit ", edit_family_path(@family) %>
+
+      <h3 class="card-title mt-4">Members</h3>
+      <ul class="list-group list-group-flush">
+        <% family.users.each do |user| %>
+          <li class="list-group-item"><%= user.name %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
