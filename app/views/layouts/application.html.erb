@@ -14,7 +14,9 @@
     <main class="page-wrapper mt-5 flex-grow-1">
       <%= render 'shared/header' %>
       <div class="flash mt-4">
-        <%= render "layouts/flash" %>
+        <div id="flash">
+          <%= render "layouts/flash" %>
+        </div>
       </div>
       <%= yield %>
     </main>
