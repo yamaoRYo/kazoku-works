@@ -1,0 +1,24 @@
+<!-- Horizontal card: Image on the left -->
+<div class="container mt-5">
+    <div class="card overflow-hidden">
+        <div class="row g-0">
+            <div class="col-sm-4 bg-repeat-0 bg-size-cover" style="background-image: url(assets/img/team/01.jpg); min-height: 12rem;"></div>
+            <div class="col-sm-8">
+                <div class="card-body">
+                    <h5 class="card-title"><%= @user.name %></h5>
+                    <ul>
+                        <p class="card-text fs-sm">続柄:<%= @user.relationship %></p>
+                        <p class="card-text fs-sm">誕生日:<%= @user.birthdate %></p>
+                        <p class="card-text fs-sm">年齢:<%= @user.age %></p>
+                        <p class="card-text fs-sm">星座:<%= @user.constellation %></p>
+                        <p class="card-text fs-sm">血液型:<%= @user.blood_type %></p>
+                    </ul>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="mt-3 text-end">
+            <%= link_to 'edit', edit_user_path(@user) , class: "btn btn-primary" %>
+        </div>
+    </div>
+</div>
