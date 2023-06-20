@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: %i[new create]
   before_action :set_user, only: %i[show edit update]
+  before_action :authorize_user_family_access, only: %i[show edit update]
 
   def new
     @user = User.new
@@ -44,5 +45,12 @@ class UsersController < ApplicationController
   
   def detail_params
     params.require(:user).permit(:relationship, :birthdate, :age, :constellation, :blood_type, :image)
+  end
+
+  def authorize_user_family_access
+    if current_user.family != @user.family
+      flash[:alert] = "You are not a member of this family."
+      redirect_to families_path
+    end
   end
 end
