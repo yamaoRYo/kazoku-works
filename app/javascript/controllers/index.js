@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import BirthdateCalculationsController from "./birthdate_calculations_controller"
+application.register("birthdate-calculations", BirthdateCalculationsController)
+
 import ConfirmController from "./confirm_controller"
 application.register("confirm", ConfirmController)
 

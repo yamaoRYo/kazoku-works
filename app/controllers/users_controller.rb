@@ -25,7 +25,8 @@ class UsersController < ApplicationController
 
   def update
     if @user.update!(detail_params)
-      redirect_to @user, flash[:notice] = "ユーザー情報を更新しました"
+      flash[:notice] = "ユーザー情報を更新しました"
+      redirect_to user_path(@user)
     else
       render :edit, status: :unprocessable_entity
     end
