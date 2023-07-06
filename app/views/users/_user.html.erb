@@ -51,7 +51,8 @@
             </div>
         </div>
         <div class="mt-3 text-end">
-            <%= link_to 'edit', edit_user_path(@user) , class: "btn btn-primary" %>
+            <%= link_to 'back', families_path(@user), class: "btn btn-secondary" %>
+            <%= link_to 'edit', edit_user_path(@user), class: "btn btn-primary" %>
         </div>
     </div>
 <% end %>
