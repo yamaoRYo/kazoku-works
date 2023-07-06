@@ -22,24 +22,22 @@
                                         <%= form.label :birthdate, class: 'form-label' %>
                                         <%= form.date_field :birthdate,
                                                             data: { birthdate_calculations_target: 'birthdate', action: 'change->birthdate-calculations#calculate' }, 
-                                                            label_as_placeholder: true,
-                                                            wrapper: false %></p>
+                                                            label_as_placeholder: true %>
+                                        </p>
                                     </div>
-                                </div>
-                                <div class="row" data-controller="birthdate-calculations">
                                     <div class="col-sm-10">
                                         <p class="card-text fs-sm mb-2">
                                         <%= form.text_field :age,
                                                             data: { birthdate_calculations_target: 'age' },
-                                                            readonly: true %></p>
+                                                            readonly: true %>
+                                        </p>
                                     </div>
-                                </div>
-                                <div class="row" data-controller="birthdate-calculations">
                                     <div class="col-sm-10">
                                         <p class="card-text fs-sm mb-2">
                                         <%= form.text_field :constellation,
                                                             data: { birthdate_calculations_target: 'constellation' }, 
-                                                            readonly: true %></p>
+                                                            readonly: true %>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="row">
