@@ -1,0 +1,63 @@
+<%= turbo_frame_tag @user do %>
+    <div class="container mt-5">
+        <div class="card overflow-hidden">
+            <div class="row g-0">
+                <div class="col-sm-4 bg-repeat-0 bg-size-cover" style="background-image: url(assets/img/team/01.jpg); min-height: 12rem;"></div>
+                    <div class="col-sm-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= @user.name %></h5>
+                            <%= bootstrap_form_with(model: @user) do |form| %>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                    <p class="card-text fs-sm mb-2">
+                                    <%= form.select :relationship, 
+                                                    [['父', 'father'], ['母', 'mother'], ['兄', 'older_brother'], ['姉', 'older_sister'], ['弟', 'younger_brother'], ['妹', 'younger_sister'], ['祖父', 'grandfather'], ['祖母', 'grandmother'], ['その他', 'other']], 
+                                                    { include_blank: '選択してください' }, 
+                                                    class: 'form-select' %></p>
+                                    </div>
+                                </div>
+                                <div class="row" data-controller="birthdate-calculations">
+                                    <div class="col-sm-10">
+                                        <p class="card-text fs-sm mb-2">
+                                        <%= form.label :birthdate, class: 'form-label' %>
+                                        <%= form.date_field :birthdate,
+                                                            data: { birthdate_calculations_target: 'birthdate', action: 'change->birthdate-calculations#calculate' }, 
+                                                            label_as_placeholder: true,
+                                                            wrapper: false %></p>
+                                    </div>
+                                </div>
+                                <div class="row" data-controller="birthdate-calculations">
+                                    <div class="col-sm-10">
+                                        <p class="card-text fs-sm mb-2">
+                                        <%= form.text_field :age,
+                                                            data: { birthdate_calculations_target: 'age' },
+                                                            readonly: true %></p>
+                                    </div>
+                                </div>
+                                <div class="row" data-controller="birthdate-calculations">
+                                    <div class="col-sm-10">
+                                        <p class="card-text fs-sm mb-2">
+                                        <%= form.text_field :constellation,
+                                                            data: { birthdate_calculations_target: 'constellation' }, 
+                                                            readonly: true %></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <p class="card-text fs-sm mb-2">
+                                        <%= form.select :blood_type,
+                                                        [['A型', 'A'], ['B型', 'B'], ['O型', 'O'], ['AB型', 'AB']],
+                                                        { include_blank: '選択してください' }, 
+                                                        class: 'form-select' %></p>
+                                    </div>
+                                </div>
+                                <%= form.submit "Update", class: "btn btn-primary" %>
+                                <%= link_to "Cancel", user_path(@user), class: "btn btn-outline-secondary" %>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div>
+    </div>
+<% end %>
