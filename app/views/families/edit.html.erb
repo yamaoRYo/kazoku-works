@@ -5,7 +5,7 @@
       <div class="card-body">
         <h3 class="card-title">Family Name</h3>
         <div style="display: flex; align-items: center;">
-          <%= bootstrap_form_with(model: @family, local: true) do |form| %>
+          <%= bootstrap_form_with(model: @family) do |form| %>
             <%= form.text_field :name,skip_label: true, class: "form-control" %>
             <%= form.submit "Update", class: "btn btn-primary", style: "font-size: 0.875rem; padding: 0.2rem 0.5rem;" %>
             <%= link_to "Cancel", families_path, class: "btn btn-outline-secondary", style: "font-size: 0.875rem; padding: 0.2rem 0.5rem;" %>  
