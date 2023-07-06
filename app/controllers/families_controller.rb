@@ -12,6 +12,7 @@ class FamiliesController < ApplicationController
       redirect_to families_path
     else
       @family = Family.new
+      render :new
     end
   end
   
@@ -21,7 +22,7 @@ class FamiliesController < ApplicationController
       current_user.family = @family
       current_user.save
       flash[:notice] = "Family created successfully."
-      redirect_to families_path
+      redirect_to families_path(@family)
     else
       render :new, status: :unprocessable_entity
     end
