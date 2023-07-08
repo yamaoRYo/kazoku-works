@@ -76,3 +76,5 @@ end
 
 gem "sorcery", "~> 0.16.5"
 gem "bootstrap_form", "~> 5.2"
+# 環境変数を使うためのgem
+gem "dotenv-rails", "~> 2.7"
