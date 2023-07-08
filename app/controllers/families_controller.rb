@@ -17,10 +17,8 @@ class FamiliesController < ApplicationController
   end
   
   def create
-    @family = Family.new(family_params)
-    if @family.save
-      current_user.family = @family
-      current_user.save
+    @family = current_user.create_family(family_params)
+    if @family
       flash[:notice] = "Family created successfully."
       redirect_to families_path(@family)
     else
