@@ -10,6 +10,14 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save!
+      if params[:invitation_token]
+        invitation = Invitation.find_by(token: params[:invitation_token])
+        if invitation
+          @user.family = invitation.family
+          @user.save
+          invitation.destroy
+        end
+      end
       flash[:notice] = "ユーザー登録が完了しました"
       redirect_to root_path
     else

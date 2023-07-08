@@ -78,3 +78,5 @@ gem "sorcery", "~> 0.16.5"
 gem "bootstrap_form", "~> 5.2"
 # 環境変数を使うためのgem
 gem "dotenv-rails", "~> 2.7"
+# ログイン機能を実装するためのgem
+gem "line-bot-api", "~> 1.12"

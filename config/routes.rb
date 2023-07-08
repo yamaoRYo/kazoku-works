@@ -9,5 +9,12 @@ Rails.application.routes.draw do
   post 'login' => "user_sessions#create"
   delete 'logout' => 'user_sessions#destroy', :as => :logout
 
-  resources :families, only: %i[index new create show edit update]
+  resources :families, only: %i[index new create show edit update] do
+    resources :invitations, only: %i[new create]
+  end
+  resources :invitations, only: [] do
+    member do
+      get :accept
+    end
+  end
 end

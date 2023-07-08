@@ -9,6 +9,7 @@
         <%= f.email_field :email %>
         <%= f.password_field :password %>
         <%= f.password_field :password_confirmation %>
+        <%= f.hidden_field :family_id, value: params[:family_id] %>
         <%= f.submit "会員登録" %>
       <% end %>
     </div>
