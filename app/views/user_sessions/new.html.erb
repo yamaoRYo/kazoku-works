@@ -16,6 +16,7 @@
         <%= f.check_box :remember_me, class: "form-check-input", id: "remember" %>
         <%= f.submit "ログイン" %>
       <% end %>
+      <%= link_to 'Sign in with LINE', auth_at_provider_path(provider: :line) %>
     </div>
   </div>
 </div>

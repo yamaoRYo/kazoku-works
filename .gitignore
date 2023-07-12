@@ -43,3 +43,6 @@ yarn-debug.log*
 
 # Ignore dotenv files
 /.env
+
+# Ingore SSL certificates
+/config/certs/*

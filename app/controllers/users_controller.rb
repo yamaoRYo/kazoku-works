@@ -19,7 +19,7 @@ class UsersController < ApplicationController
         end
       end
       flash[:notice] = "ユーザー登録が完了しました"
-      redirect_to root_path
+      redirect_to user_path(@user)
     else
       render :new, status: :unprocessable_entity
     end
