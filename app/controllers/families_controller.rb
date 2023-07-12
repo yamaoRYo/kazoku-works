@@ -3,7 +3,11 @@ class FamiliesController < ApplicationController
   before_action :set_family, only: %i[show edit update]
 
   def index
+    if current_user.family.present?
     @family = current_user.family
+    else
+      redirect_to new_family_path
+    end
   end
 
   def new
@@ -20,8 +24,10 @@ class FamiliesController < ApplicationController
     @family = Family.new(family_params)
     @family.admin = current_user
     if @family.save
+      current_user.family = @family
+      current_user.save
       flash[:notice] = "Family created successfully."
-      redirect_to families_path(@family)
+      redirect_to  family_path(@family)
     else
       render :new, status: :unprocessable_entity
     end

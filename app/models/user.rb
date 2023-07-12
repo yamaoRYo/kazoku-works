@@ -4,7 +4,8 @@ class User < ApplicationRecord
   has_many :authentications, dependent: :destroy
   accepts_nested_attributes_for :authentications
 
-  has_one :family, foreign_key: :admin_id
+  belongs_to :family, optional: true
+  has_one :administered_family, class_name: 'Family', foreign_key: :admin_id
 
   validates :name, presence: true, length: { maximum: 50, allow_blank: true}
   validates :email, presence: true, uniqueness: true
