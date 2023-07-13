@@ -76,3 +76,9 @@ end
 
 gem "sorcery", "~> 0.16.5"
 gem "bootstrap_form", "~> 5.2"
+# 環境変数を使うためのgem
+gem "dotenv-rails", "~> 2.7"
+# LINE Messaging APIを使うためのgem
+gem "line-bot-api", "~> 1.12"
+# LINEログイン機能を実装するためのgem
+gem 'omniauth-line'

@@ -8,6 +8,19 @@ Rails.application.routes.draw do
   get 'login' => 'user_sessions#new', :as => :login
   post 'login' => "user_sessions#create"
   delete 'logout' => 'user_sessions#destroy', :as => :logout
+  get 'auth/:provider/callback' => 'user_sessions#create'
 
-  resources :families, only: %i[index new create show edit update]
+  post 'oauth/callback' => 'oauths#callback'
+  get 'oauth/callback' => 'oauths#callback' 
+  get 'oauth/:provider' => 'oauths#oauth', :as => :auth_at_provider
+
+
+  resources :families, only: %i[index new create show edit update] do
+    resources :invitations, only: %i[new create]
+  end
+  resources :invitations, only: [] do
+    member do
+      get :accept
+    end
+  end
 end

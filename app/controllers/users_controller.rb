@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: %i[new create]
   before_action :set_user, only: %i[show edit update]
-  before_action :authorize_user_family_access, only: %i[show edit update]
+  before_action :authorize_user_family_access, only: %i[show edit update] 
 
   def new
     @user = User.new
@@ -9,11 +9,17 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if @user.save!
-      flash[:notice] = "ユーザー登録が完了しました"
-      redirect_to root_path
+    if session[:invitation_token]
+      invitation = Invitation.find_by(token: session[:invitation_token])
+      if invitation
+        @user.family = invitation.family
+      end
+    end
+    if @user.save
+      session[:user_id] = @user.id
+      redirect_to @user, notice: 'User was successfully created.'
     else
-      render :new, status: :unprocessable_entity
+      render :new , status: :unprocessable_entity
     end
   end
 
@@ -22,6 +28,10 @@ class UsersController < ApplicationController
   end
 
   def edit;
+    if current_user != @user
+      flash[:alert] = "You are not allowed to edit this user."
+      redirect_to user_path(@user)
+    end
   end
 
   def update
@@ -44,12 +54,5 @@ class UsersController < ApplicationController
   
   def detail_params
     params.require(:user).permit(:relationship, :birthdate, :age, :constellation, :blood_type, :image)
-  end
-
-  def authorize_user_family_access
-    if current_user.family != @user.family
-      flash[:alert] = "You are not a member of this family."
-      redirect_to families_path
-    end
   end
 end

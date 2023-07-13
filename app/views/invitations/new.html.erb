@@ -1,0 +1,20 @@
+<%= bootstrap_form_with url: family_invitations_path(@family), method: :post, local: true do |form| %>
+  <%= form.submit "招待用URLを作成する", class: "btn btn-primary mb-3" %>
+<% end %>
+
+<% if @invitation_url %>
+<div class="card w-75 mx-auto border-primary card-hover" data-controller="clipboard" >
+  <div class="card-body" >
+    <h5 class="card-title bg-light p-2">招待用 URL</h5>
+    <div class="input-group mb-3 position-relative">
+      <input type="text" class="form-control " id="invitation_url" value="<%= @invitation_url %>" readonly data-clipboard-target="source">
+      <button class="btn btn-success rounded-end" type="button" data-action="clipboard#copy">
+        <i class="bi bi-clipboard me-2"></i>
+        copy
+      </button>
+      <p class="copy-feedback text-success position-absolute bottom-50 end-0 translate-middle" style="display: none;" data-clipboard-target="feedback">Copied!</p>
+    </div>
+  </div>
+</div>
+<% end %>
+
