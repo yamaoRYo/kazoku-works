@@ -24,3 +24,14 @@ label.required:after {
   margin-top: -0.5rem; /* 閉じるボタンの上側のマージンを調整 */
   margin-right: -0.5rem; /* 閉じるボタンの右側のマージンを調整 */
 }
+
+.btn-line {
+  background-color: #06C755;
+  color: #FFFFFF;
+  border: 1px solid #06C755;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+}

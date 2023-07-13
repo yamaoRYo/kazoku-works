@@ -16,7 +16,12 @@
         <%= f.check_box :remember_me, class: "form-check-input", id: "remember" %>
         <%= f.submit "ログイン" %>
       <% end %>
-      <%= link_to 'Sign in with LINE', auth_at_provider_path(provider: :line) %>
+      <div class="md-2">
+        <%= link_to auth_at_provider_path(provider: :line), class: "btn btn-line" do %>
+          <%= image_tag("line_logo.png", alt: "LINE logo", class: "line-logo", width: "30") %>
+          LINEログイン
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
