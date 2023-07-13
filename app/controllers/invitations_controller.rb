@@ -1,27 +1,38 @@
 class InvitationsController < ApplicationController
   def new
     @family = Family.find(params[:family_id])
+    @invitation = @family.invitations.build
+    @invitation_url = session.delete(:invitation_url)
   end
 
   def create
     @family = Family.find(params[:family_id])
-    if ccurent_user == @family.admin
+    if current_user == @family.admin
       invitation = @family.invite_user
       invitation_url = accept_invitation_url(invitation.token)
-      LineNotifier.new.send_message(@family.admin.line_user_id, "招待URL: #{inbitation_url}")
-      redirect_to family_path(@family), notice: '招待URLを送信しました'
+      session[:invitation_url] = invitation_url
+      flash[:notice] = "招待URLを生成しました"
+      redirect_to new_family_invitation_path(@family)
     else
-      redirect_to family_path(@family), alert: '管理者以外は招待できません'
+      flash[:alert] = '管理者以外は招待できません'
+      redirect_to family_path(@family)
     end
   end
 
   def accept
-    @invitation = Invitation.find_by!(token: params[:id])
-    if @invitation
-      session[:invitation_token] = @invitation.token
-      redirect_to new_user_resistration_url
+    invitation = Invitation.find_by(token: params[:id])
+    if invitation
+      session[:invitation_token] = invitation.token
+      redirect_to new_user_path
     else
-      redirect_to root_url, alert: '招待URLが無効です'
+      flash[:alert] = '招待URLが無効です'
+      redirect_to root_path
     end
+  end
+
+  private
+
+  def invitation_params
+    params.permit(:family_id)
   end
 end
