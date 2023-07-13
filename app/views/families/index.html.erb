@@ -4,6 +4,7 @@
   <% if @family %>
     <h1 class="mb-4"><%= yield(:title) %></h1>
     <%= render @family %>
+    <%= link_to 'Invite Family Member', new_family_invitation_path(@family), class: 'btn btn-primary mt-3' %>
   <% else %>
     <h3>Welcome to Kazoku-Works</h3>
     <div class="alert alert-info" role="alert">

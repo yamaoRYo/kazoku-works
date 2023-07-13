@@ -1,6 +1,7 @@
 class FamiliesController < ApplicationController
   before_action :require_login
   before_action :set_family, only: %i[show edit update]
+  before_action :authorize_user_family_access, only: %i[show edit update]
 
   def index
     if current_user.family.present?
