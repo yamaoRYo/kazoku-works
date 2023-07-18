@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_09_080506) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_18_052255) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,6 +22,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_09_080506) do
     t.datetime "updated_at", null: false
     t.index ["provider", "uid"], name: "index_authentications_on_provider_and_uid"
     t.index ["user_id"], name: "index_authentications_on_user_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "event_type"
+    t.string "title"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.text "content"
+    t.string "visibility"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_events_on_user_id"
   end
 
   create_table "families", force: :cascade do |t|
@@ -59,6 +72,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_09_080506) do
     t.index ["family_id"], name: "index_users_on_family_id"
   end
 
+  add_foreign_key "events", "users"
   add_foreign_key "families", "users", column: "admin_id"
   add_foreign_key "invitations", "families"
   add_foreign_key "users", "families"
