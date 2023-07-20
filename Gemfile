@@ -82,3 +82,4 @@ gem "dotenv-rails", "~> 2.7"
 gem "line-bot-api", "~> 1.12"
 # LINEログイン機能を実装するためのgem
 gem 'omniauth-line'
+gem 'enum_help', '~> 0.0.15'
