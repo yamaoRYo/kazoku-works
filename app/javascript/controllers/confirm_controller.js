@@ -9,6 +9,14 @@ export default class extends Controller {
       e.target.closest('form').submit();
     }
   }
+
+  confirmDelete(e) {
+    e.preventDefault()
+    
+    if (window.confirm("削除してよろしいですか")) {
+      e.target.closest('form').submit();
+    }
+  }
 }
 
 
