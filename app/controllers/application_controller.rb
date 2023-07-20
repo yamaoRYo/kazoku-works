@@ -4,10 +4,12 @@ class ApplicationController < ActionController::Base
     private
 
     def authorize_user_family_access
-        target_family = @family || @user.family
-        if current_user && current_user.family != target_family
-            flash[:alert] = 'アクセス権限がありません'
-            redirect_to families_path
+        if current_user 
+            target_family = @family || current_user.family
+            if current_user.family != target_family
+                flash[:alert] = 'アクセス権限がありません'
+                redirect_to families_path
+            end
         end
     end
 

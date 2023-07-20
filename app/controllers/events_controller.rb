@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   before_action :require_login
   before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_user_family_access, only: %i[show edit update ]
 
   def new
     @event = Event.new
@@ -18,14 +19,22 @@ class EventsController < ApplicationController
   end
 
 
-  def show;
+  def show
+    unless @event.user.family == current_user.family
+      flash[:alert] = 'アクセス権限がありません'
+      redirect_to families_path
+    end
   end
 
-  def edit;
+  def edit
+    unless @event.user.family == current_user.family
+      flash[:alert] = 'アクセス権限がありません'
+      redirect_to families_path
+    end
   end
 
   def index
-    @events = Event.all
+    @events = Event.where(user: current_user.family.users)
   end
 
   def update
