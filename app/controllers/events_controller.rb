@@ -1,32 +1,39 @@
 class EventsController < ApplicationController
   before_action :require_login
   before_action :set_event, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_user_family_access, only: %i[show edit update]
 
   def new
     @event = Event.new
   end
 
   def create
-    @event = current_user.events.build(event_params)
-    if @event.save
-      redirect_to @event, notice: 'Event was successfully created.'
+    event = Event.new(event_params)
+    event.user = current_user
+    if event.save
+      flash[:notice] = 'Event was successfully created.'
+      redirect_to event
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
-  def show
+
+  def show;
   end
 
-  def edit
+  def edit;
+  end
+
+  def index
+    @events = Event.all
   end
 
   def update
     if @event.update(event_params)
-      redirect_to @event, notice: 'Event was successfully updated.'
+      flash[:notice] = 'Event was successfully updated.'
+      redirect_to event_path(@event)
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 

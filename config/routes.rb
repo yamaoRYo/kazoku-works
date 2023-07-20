@@ -23,4 +23,6 @@ Rails.application.routes.draw do
       get :accept
     end
   end
+
+  resources :events
 end
