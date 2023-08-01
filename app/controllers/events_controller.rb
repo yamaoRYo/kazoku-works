@@ -9,7 +9,7 @@ class EventsController < ApplicationController
 
   def create
     event = Event.new(event_params)
-    event.user = current_user
+    event.user_id = current_user.id
     if event.save
       flash[:notice] = 'Event was successfully created.'
       redirect_to event
@@ -17,30 +17,31 @@ class EventsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
-
-
+  
   def show
-    unless @event.user.family == current_user.family
+    unless @event.visible_to(current_user) && User.find(@event.user_id).family == current_user.family
       flash[:alert] = 'アクセス権限がありません'
       redirect_to families_path
     end
   end
-
+  
   def edit
-    unless @event.user.family == current_user.family
+    unless User.find(@event.user_id).family == current_user.family
       flash[:alert] = 'アクセス権限がありません'
       redirect_to families_path
     end
   end
+  
 
   def index
-    @events = Event.where(user: current_user.family.users)
+    @events = Event.all.select do |event|
+      event.visible_to(current_user) && User.find(event.user_id).family == current_user.family
+    end
   end
 
   def update
     if @event.update(event_params)
-      flash[:notice] = 'Event was successfully updated.'
-      redirect_to event_path(@event)
+      redirect_to @event, notice: 'Event was successfully updated.'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -58,6 +59,6 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:event_type, :title, :start_date, :end_date, :content, :visibility)
+    params.require(:event).permit(:event_type, :title, :start_date, :end_date, :content, :visibility, visible_to_user_ids: [])
   end
 end
