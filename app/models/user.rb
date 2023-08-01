@@ -4,9 +4,11 @@ class User < ApplicationRecord
 
   # アソシエーション
   has_many :authentications, dependent: :destroy
-  has_many :events
+  has_many :event_visibilities, dependent: :destroy 
+  has_many :visible_events, through: :event_visibilities, source: :event
   belongs_to :family, optional: true
   has_one :administered_family, class_name: 'Family', foreign_key: :admin_id
+
 
   # ネストした属性
   accepts_nested_attributes_for :authentications
