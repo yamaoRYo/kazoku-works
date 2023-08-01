@@ -18,3 +18,6 @@ application.register("flash", FlashController)
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import VisibilityController from "./visibility_controller"
+application.register("visibility", VisibilityController)

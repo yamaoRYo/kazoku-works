@@ -1,0 +1,21 @@
+<%= provide(:title, t('activerecord.models.event')) %>
+
+<%= turbo_frame_tag 'events' do %>
+  <h1>Events</h1>
+
+  <% @events.each do |event| %>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"><%= event.title %></h5>
+        <p class="card-text"><%= event.content %></p>
+        <%= link_to t('activerecord.action.show'), event, data: { turbo_action: 'replace' } %>
+        <%= link_to t('activerecord.action.edit'), edit_event_path(event) %>
+        <%= form_with url: event_path(event), method: :delete, data: { controller: 'confirm', action: 'click->confirm#confirmDelete' } do %>
+          <%= submit_tag t('activerecord.action.destroy') %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <%= link_to t('activerecord.action.create'), new_event_path, data: { turbo_action: 'replace' } %>
+<% end %>

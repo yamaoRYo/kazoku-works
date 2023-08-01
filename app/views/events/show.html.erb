@@ -1,0 +1,36 @@
+<%= turbo_frame_tag 'events' do %>
+  <%= render 'layouts/flash' %>
+
+  <p>
+    <strong><%= t('activerecord.attributes.event.event_type') %>:</strong>
+    <%= @event.human_attribute_enum(:event_type) %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.event.title') %>:</strong>
+    <%= @event.title %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.event.start_date') %>:</strong>
+    <%= I18n.l(@event.start_date, formats: :long) %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.event.end_date') %>:</strong>
+    <%= I18n.l(@event.end_date, formats: :long) %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.event.content') %>:</strong>
+    <%= @event.content %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.event.visibility') %>:</strong>
+    <%= @event.human_attribute_enum(:visibility) %>
+  </p>
+
+  <%= link_to 'Edit', edit_event_path(@event) %>
+  <%= link_to 'Back', events_path %>
+<% end %>

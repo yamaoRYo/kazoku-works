@@ -13,6 +13,7 @@
     <% if logged_in? %>
       <% if current_user.family.present? %>
         <%= link_to '家族情報編集', edit_family_path(current_user.family), class: 'btn btn-primary shadow-primary btn-sm fs-sm rounded d-none d-lg-inline-flex me-3' %>
+        <%= link_to 'イベント一覧', events_path, class: 'btn btn-primary shadow-primary btn-sm fs-sm rounded d-none d-lg-inline-flex me-3' %>
       <% end %>
       <%= button_to logout_path, class: 'btn btn-secondary shadow-secondary btn-sm fs-sm rounded d-none d-lg-inline-flex', method: :delete, data: { controller: 'confirm', action: 'click->confirm#confirmLogout' } do %>
         ログアウト
