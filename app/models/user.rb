@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :visible_events, through: :event_visibilities, source: :event
   belongs_to :family, optional: true
   has_one :administered_family, class_name: 'Family', foreign_key: :admin_id
-
+  has_one_attached :image
 
   # ネストした属性
   accepts_nested_attributes_for :authentications

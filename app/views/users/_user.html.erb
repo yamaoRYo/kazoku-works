@@ -2,7 +2,9 @@
     <div class="container mt-5">
         <div class="card overflow-hidden">
             <div class="row g-0">
-                <div class="col-sm-4 bg-repeat-0 bg-size-cover" style="background-image: url(assets/img/team/01.jpg); min-height: 12rem;"></div>
+                <div class="col-sm-4 bg-repeat-0 bg-size-cover" style="background-image: min-height: 12rem;">
+                    <%= image_tag(@user.image.attached? ? url_for(@user.image) : image_url('default.png')) %>
+                </div>
                 <div class="col-sm-8">
                     <div class="card-body">
                         <h5 class="card-title"><%= @user.name %></h5>
