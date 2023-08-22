@@ -38,7 +38,6 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.image.purge
     redirect_to @user, notice: 'イメージを削除しました'
-    puts "Destroy Image Action Triggered"
   end
 
   def update
