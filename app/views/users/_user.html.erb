@@ -6,6 +6,12 @@
                     <!-- User Image -->
                     <%= image_tag(@user.image.attached? ? url_for(@user.image.variant(resize_to_limit: [400, 400])) : image_url('default.png'), class: "card-img-top") %>
                     
+                    <div class="d-flex justify-content-end">
+                        <% if @user.image.attached? %>
+                            <%= button_to '画像の削除', destroy_image_user_path(@user), method: :delete, data: { turbo_confirm: '本当に削除しますか?' }, class: 'float-right' %>
+                        <% end %>
+                    </div>
+
                     <!-- User Details -->
                     <div class="card-body">
                         <h5 class="card-title"><%= @user.name %></h5>

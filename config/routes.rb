@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root 'tops#index'
 
-  resources :users, except: %i[index destroy]
   get 'login' => 'user_sessions#new', :as => :login
   post 'login' => "user_sessions#create"
   delete 'logout' => 'user_sessions#destroy', :as => :logout
@@ -14,6 +13,11 @@ Rails.application.routes.draw do
   get 'oauth/callback' => 'oauths#callback' 
   get 'oauth/:provider' => 'oauths#oauth', :as => :auth_at_provider
 
+  resources :users, except: %i[index] do
+    member do
+        delete :destroy_image
+    end
+  end
 
   resources :families, only: %i[index new create show edit update] do
     resources :invitations, only: %i[new create]
