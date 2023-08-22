@@ -49,7 +49,9 @@ gem "bootsnap", require: false
 # gem "sassc-rails"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
+  gem "image_processing", ">= 1.2"
+  gem "ruby-vips"
+  gem "ffi", "~> 1.15.0"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -76,10 +78,19 @@ end
 
 gem "sorcery", "~> 0.16.5"
 gem "bootstrap_form", "~> 5.2"
+
 # 環境変数を使うためのgem
 gem "dotenv-rails", "~> 2.7"
+
 # LINE Messaging APIを使うためのgem
 gem "line-bot-api", "~> 1.12"
+
 # LINEログイン機能を実装するためのgem
 gem 'omniauth-line'
 gem 'enum_help', '~> 0.0.15'
+
+# 画像サイズを変更するためのgem
+gem 'mini_magick', '~> 4.11', '>= 4.11.0'
+
+# 翻訳機能を実装するためのgem
+gem 'rails-i18n'
