@@ -199,3 +199,24 @@ ja:
         everyone: 全員
         partial: 部分公開
         draft: 下書き
+      user:
+        name: '名前'
+        email: 'メールアドレス'
+        password: 'パスワード'
+        password_confirmation: 'パスワード(確認)'
+        relationship: '関係'
+        birthdate: '誕生日'
+        age: '年齢'
+        constellation: '星座'
+        blood_type: '血液型'
+        image: '画像'
+  relationships:
+    father: 父
+    mother: 母
+    older_brother: 兄
+    older_sister: 姉
+    younger_brother: 弟
+    younger_sister: 妹
+    grandfather: 祖父
+    grandmother: 祖母
+    other: その他
