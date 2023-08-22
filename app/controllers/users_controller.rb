@@ -27,11 +27,18 @@ class UsersController < ApplicationController
     @family = @user.family
   end
 
-  def edit;
+  def edit
     if current_user != @user
       flash[:alert] = "You are not allowed to edit this user."
       redirect_to user_path(@user)
     end
+  end
+
+  def destroy_image
+    @user = User.find(params[:id])
+    @user.image.purge
+    redirect_to @user, notice: 'イメージを削除しました'
+    puts "Destroy Image Action Triggered"
   end
 
   def update
