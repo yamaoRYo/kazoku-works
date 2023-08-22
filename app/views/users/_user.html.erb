@@ -1,60 +1,50 @@
 <%= turbo_frame_tag @user do %>
     <div class="container mt-5">
-        <div class="card overflow-hidden">
-            <div class="row g-0">
-                <div class="col-sm-4 bg-repeat-0 bg-size-cover" style="background-image: url(assets/img/team/01.jpg); min-height: 12rem;"></div>
-                <div class="col-sm-8">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="card border">
+                    <!-- User Image -->
+                    <%= image_tag(@user.image.attached? ? url_for(@user.image.variant(resize_to_limit: [400, 400])) : image_url('default.png'), class: "card-img-top") %>
+                    
+                    <!-- User Details -->
                     <div class="card-body">
                         <h5 class="card-title"><%= @user.name %></h5>
-                        <div class="row">
-                            <div class="col-sm-10">
-                                <p class="card-text fs-sm mb-2">
-                                    <strong>Relationship</strong><br>
-                                    <input type="text" class="form-control" readonly value="<%= @user.relationship %>">
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-10">
-                                <p class="card-text fs-sm mb-2">
-                                    <strong>Birthdate</strong><br>
-                                    <input type="text" class="form-control" readonly value="<%= @user.birthdate %>">
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-10">
-                                <p class="card-text fs-sm mb-2">
-                                    <strong>Age</strong><br>
-                                    <input type="text" class="form-control" readonly value="<%= @user.age %>">
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-10">
-                                <p class="card-text fs-sm mb-2">
-                                    <strong>Constellation</strong><br>
-                                    <input type="text" class="form-control" readonly value="<%= @user.constellation %>">
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-10">
-                                <p class="card-text fs-sm mb-2">
-                                    <strong>Blood_type</strong><br>
-                                    <input type="text" class="form-control" readonly value="<%= @user.blood_type %>">
-                                </p>
-                            </div>
-                        </div>
+                        
+                        <p class="mb-2">
+                            <strong><%= User.human_attribute_name(:relationship) %></strong><br>
+                            <span style="margin-left: 1em;"><%= t("relationships.#{@user.relationship}") %></span>
+                        </p>
+                        
+                        <p class="mb-2">
+                            <strong><%= User.human_attribute_name(:birthdate) %></strong><br>
+                            <span style="margin-left: 1em;"><%= I18n.l(@user.birthdate, format: :long) %></span>
+                        </p>
+                        
+                        <p class="mb-2">
+                            <strong><%= User.human_attribute_name(:age) %></strong><br>
+                            <span style="margin-left: 1em;"><%= @user.age %>際</span>
+                        </p>
+                        
+                        <p class="mb-2">
+                            <strong><%= User.human_attribute_name(:constellation) %></strong><br>
+                            <span style="margin-left: 1em;"><%= @user.constellation %></span>
+                        </p>
+
+                        
+                        <p class="mb-2">
+                            <strong><%= User.human_attribute_name(:blood_type) %></strong><br>
+                            <span style="margin-left: 1em;"><%= @user.blood_type %>型</span>
+                        </p>
                     </div>
-                </div>      
+                </div>
+                <!-- 編集ボタンなどをカードの外に表示 -->
+                <div class="mt-3">
+                    <%= link_to 'back', families_path(@user), class: "btn btn-secondary" %>
+                    <% if @user.id == current_user.id %>
+                        <%= link_to 'edit', edit_user_path(@user), class: "btn btn-primary" %>
+                    <% end %>
+                </div>
             </div>
-        </div>
-        <div class="mt-3 text-end">
-            <%= link_to 'back', families_path(@user), class: "btn btn-secondary" %>
-            <% if @user.id == current_user.id %>
-                <%= link_to 'edit', edit_user_path(@user), class: "btn btn-primary" %>
-            <% end %>
         </div>
     </div>
 <% end %>
