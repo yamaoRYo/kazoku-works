@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_01_040654) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_29_021134) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -91,6 +91,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_040654) do
     t.index ["family_id"], name: "index_invitations_on_family_id"
   end
 
+  create_table "memories", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.datetime "date"
+    t.string "title"
+    t.text "details"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_memories_on_event_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
@@ -116,5 +126,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_040654) do
   add_foreign_key "events", "users"
   add_foreign_key "families", "users", column: "admin_id"
   add_foreign_key "invitations", "families"
+  add_foreign_key "memories", "events"
   add_foreign_key "users", "families"
 end

@@ -5,6 +5,7 @@ class Event < ApplicationRecord
   has_many :visible_to_users, through: :event_visibilities, source: :user
   enum event_type: { birthday: 0, anniversary: 1, other: 2 }, _prefix: true, _suffix: true
   enum visibility: { everyone: 0, partial: 1, draft: 2 }, _prefix: true, _suffix: true
+  has_many :memories, dependent: :destroy
   
   # バリデーション
   validates :title, presence: true
