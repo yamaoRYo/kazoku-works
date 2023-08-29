@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'memories/index'
+  get 'memories/show'
+  get 'memories/new'
+  get 'memories/create'
+  get 'memories/update'
+  get 'memories/destroy'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
@@ -29,4 +35,6 @@ Rails.application.routes.draw do
   end
 
   resources :events
+
+  resources :memories
 end
