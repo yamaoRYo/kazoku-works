@@ -18,28 +18,27 @@
                         
                         <p class="mb-2">
                             <strong><%= User.human_attribute_name(:relationship) %></strong><br>
-                            <span style="margin-left: 1em;"><%= t("relationships.#{@user.relationship}") %></span>
+                            <span style="margin-left: 1em;"><%= @user.relationship.present? ? t("relationships.#{@user.relationship}") : "--未登録--" %></span>
                         </p>
                         
                         <p class="mb-2">
                             <strong><%= User.human_attribute_name(:birthdate) %></strong><br>
-                            <span style="margin-left: 1em;"><%= I18n.l(@user.birthdate, format: :long) %></span>
+                            <span style="margin-left: 1em;"><%= @user.birthdate.present? ? I18n.l(@user.birthdate, format: :long) : "--未登録--" %></span>
                         </p>
-                        
+
                         <p class="mb-2">
                             <strong><%= User.human_attribute_name(:age) %></strong><br>
-                            <span style="margin-left: 1em;"><%= @user.age %>際</span>
+                            <span style="margin-left: 1em;"><%= @user.age.present? ? "#{@user.age}際" : "--未登録--" %></span>
                         </p>
                         
                         <p class="mb-2">
                             <strong><%= User.human_attribute_name(:constellation) %></strong><br>
-                            <span style="margin-left: 1em;"><%= @user.constellation %></span>
+                            <span style="margin-left: 1em;"><%= @user.constellation.present? ? @user.constellation : "--未登録--" %></span>
                         </p>
 
-                        
                         <p class="mb-2">
                             <strong><%= User.human_attribute_name(:blood_type) %></strong><br>
-                            <span style="margin-left: 1em;"><%= @user.blood_type %>型</span>
+                            <span style="margin-left: 1em;"><%= @user.blood_type.present? ? "#{@user.blood_type}型" : "--未登録--" %></span>
                         </p>
                     </div>
                 </div>

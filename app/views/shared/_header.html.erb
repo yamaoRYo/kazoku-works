@@ -12,9 +12,19 @@
     </div>
     <% if logged_in? %>
       <% if current_user.family.present? %>
-        <%= link_to '家族情報編集', edit_family_path(current_user.family), class: 'btn btn-primary shadow-primary btn-sm fs-sm rounded d-none d-lg-inline-flex me-3' %>
-        <%= link_to 'イベント一覧', events_path, class: 'btn btn-primary shadow-primary btn-sm fs-sm rounded d-none d-lg-inline-flex me-3' %>
+        <% unless request.path == families_path(current_user.family) %>
+          <%= link_to '家族一覧', families_path(current_user.family), class: 'btn btn-primary shadow-primary btn-sm fs-sm rounded d-none d-lg-inline-flex me-3' %>
+        <% end %>
+        
+        <% unless request.path == events_path %>
+          <%= link_to 'イベント一覧', events_path, class: 'btn btn-primary shadow-primary btn-sm fs-sm rounded d-none d-lg-inline-flex me-3' %>
+        <% end %>
+        
+        <% unless request.path == memories_path %>
+          <%= link_to '思い出一覧', memories_path, class: 'btn btn-primary shadow-primary btn-sm fs-sm rounded d-none d-lg-inline-flex me-3' %>
+        <% end %>
       <% end %>
+
       <%= button_to logout_path, class: 'btn btn-secondary shadow-secondary btn-sm fs-sm rounded d-none d-lg-inline-flex', method: :delete, data: { controller: 'confirm', action: 'click->confirm#confirmLogout' } do %>
         ログアウト
       <% end %>
