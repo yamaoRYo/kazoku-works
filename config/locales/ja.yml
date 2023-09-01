@@ -183,6 +183,7 @@ ja:
       update: 更新
     models:
       event: イベント
+      memory: 思い出
     attributes:
       event:
         title: タイトル

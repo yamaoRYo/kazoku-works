@@ -1,0 +1,100 @@
+class MemoriesController < ApplicationController
+  before_action :require_login
+  before_action :set_memory, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_memory_access, only: %i[show edit update destroy]
+  
+  def index
+    # everyoneのvisibilityを持つイベントに関連するメモリーを取得
+    everyone_events = Event.where(visibility: "everyone")
+    @memories = Memory.where(event: everyone_events)
+  
+    # partialのvisibilityを持つイベントに関連するメモリーを取得
+    partial_events = Event.joins(:visible_to_users).where(visibility: "partial", event_visibilities: { user_id: current_user.id })
+    @memories = @memories.or(Memory.where(event: partial_events))
+  end
+
+  def show;
+  end
+
+  def edit
+    set_event_options
+  end
+
+  def new
+    @memory = Memory.new
+    set_event_options
+  end
+
+  def create
+    @memory = Memory.new(memory_params)
+    if @memory.save
+      flash[:notice] = 'Memory was successfully created.'
+      redirect_to @memory
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def update
+
+    if params[:memory][:photos]
+      @memory.photos.attach(params[:memory][:photos])
+      params[:memory].delete(:photos)
+    end
+    if @memory.update(memory_params)
+      redirect_to @memory, notice: "Successfully updated memory."
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @memory.destroy
+    redirect_to memories_url, notice: "Successfully destroyed memory."
+  end
+
+  private
+
+  def set_memory
+    @memory = Memory.find(params[:id])
+  end
+
+  def set_event_options
+    # 現在のユーザーが所属する家族のユーザーを取得
+    family_users = User.where(family_id: current_user.family_id)
+  
+    # これらのユーザーが作成したイベントを取得
+    family_events = Event.where(user_id: family_users.ids)
+  
+    # 現在のユーザーに表示可能なイベントのみをフィルタリング
+    visible_events = family_events.select { |event| event.visible_to(current_user) }
+  
+    # イベントの選択肢を設定
+    @event_options = visible_events.map { |event| [event.title, event.id] }
+  end
+  
+  
+
+  def memory_params
+    params.require(:memory).permit(:title, :details, :date, :event_id, :event_type, photos: [])
+  end
+
+  def delete_photo
+    photo = ActiveStorage::Attachment.find(params[:photo_id])
+    photo.purge
+    redirect_to edit_memory_path(@memory), notice: "Successfully deleted photo."
+  end
+
+  def authorize_memory_access
+    # ユーザーの家族に関連するイベントを取得
+    family_events = current_user.family.users.flat_map(&:visible_events).uniq
+    Rails.logger.info("Family events: #{family_events.map(&:id).join(', ')}")
+    Rails.logger.info("Memory's event ID: #{@memory.event.id}")
+
+    # 上記で取得したイベントに関連するメモリーを確認
+    if !@memory.event.visible_to(current_user)
+      flash[:alert] = 'アクセス権限がありません'
+      redirect_to memories_path
+    end
+  end
+end
