@@ -1,2 +1,15 @@
-<h1>Memories#new</h1>
-<p>Find me in app/views/memories/new.html.erb</p>
+<%= turbo_frame_tag 'memories' do %>
+    <div class="container">
+        <div class="row justify-content-center pt-5">
+            <div class="col-lg-6 col-md-8 col-12 pt-1 pt-md-4 pb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="text-center text-xl-start">思い出作成</h1>
+                        <%= render 'form', memory: @memory %>
+                        <%= link_to '戻る', memories_path %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<% end %>

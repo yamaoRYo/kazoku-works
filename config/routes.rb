@@ -36,5 +36,9 @@ Rails.application.routes.draw do
 
   resources :events
 
-  resources :memories
+  resources :memories do
+    member do
+      delete :delete_photo
+    end
+  end
 end
