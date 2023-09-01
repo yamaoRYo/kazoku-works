@@ -88,8 +88,6 @@ class MemoriesController < ApplicationController
   def authorize_memory_access
     # ユーザーの家族に関連するイベントを取得
     family_events = current_user.family.users.flat_map(&:visible_events).uniq
-    Rails.logger.info("Family events: #{family_events.map(&:id).join(', ')}")
-    Rails.logger.info("Memory's event ID: #{@memory.event.id}")
 
     # 上記で取得したイベントに関連するメモリーを確認
     if !@memory.event.visible_to(current_user)
