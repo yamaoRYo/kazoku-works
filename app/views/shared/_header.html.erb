@@ -1,39 +1,35 @@
 <!-- Navbar -->
-<!-- Remove "fixed-top" class to make navigation bar scrollable with the page -->
-<header class="header navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
+<header class="header navbar navbar-dark bg-dark shadow-sm fixed-top">
   <div class="container px-3">
     <%= link_to root_path, class: 'navbar-brand pe-3' do %>
       Kazoku-Works
     <% end %>
-    <div id="navbarNav" class="offcanvas offcanvas-end">
-      <div class="offcanvas-header border-top">
-        <%= link_to '会員登録', new_user_path, class: 'btn btn-primary shadow-primary btn-sm fs-sm rounded d-none d-lg-inline-flex me-3' %>
-      </div>
-    </div>
-    <% if logged_in? %>
-      <% if current_user.family.present? %>
-        <% unless request.path == families_path(current_user.family) %>
-          <%= link_to '家族一覧', families_path(current_user.family), class: 'btn btn-primary shadow-primary btn-sm fs-sm rounded d-none d-lg-inline-flex me-3' %>
-        <% end %>
-        
-        <% unless request.path == events_path %>
-          <%= link_to 'イベント一覧', events_path, class: 'btn btn-primary shadow-primary btn-sm fs-sm rounded d-none d-lg-inline-flex me-3' %>
-        <% end %>
-        
-        <% unless request.path == memories_path %>
-          <%= link_to '思い出一覧', memories_path, class: 'btn btn-primary shadow-primary btn-sm fs-sm rounded d-none d-lg-inline-flex me-3' %>
-        <% end %>
-      <% end %>
 
-      <%= button_to logout_path, class: 'btn btn-secondary shadow-secondary btn-sm fs-sm rounded d-none d-lg-inline-flex', method: :delete, data: { controller: 'confirm', action: 'click->confirm#confirmLogout' } do %>
-        ログアウト
+    <!-- Hamburger icon -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+
+  <!-- Offcanvas Menu -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Menu</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <% if logged_in? %>
+        <%= link_to 'Kazoku ページ', families_path(current_user.family), class: 'd-block mb-2' %>
+        <%= link_to 'Kazoku 招待', new_family_path, class: 'd-block mb-2' %>
+        <%= link_to 'イベント ページ', events_path, class: 'd-block mb-2' %>
+        <%= link_to 'イベント 作成', new_event_path, class: 'd-block mb-2' %>
+        <%= link_to '思い出 ページ', memories_path, class: 'd-block mb-2' %>
+        <%= link_to '思い出 作成', new_memory_path, class: 'd-block mb-2' %>
+        <%= link_to 'ログアウト', logout_path, method: :delete, data: { controller: 'confirm', action: 'click->confirm#confirmLogout' }, class: 'd-block mb-2' %>
+      <% else %>
+        <%= link_to 'ログイン', login_path, class: 'd-block mb-2' %>
+        <%= link_to '会員登録', new_user_path, class: 'd-block mb-2' %>
       <% end %>
-    <% else %>
-      <div class="form-check form-switch mode-switch pe-lg-1 ms-auto me-4" data-bs-toggle="mode">
-        <%= link_to 'ログイン', login_path, class: 'btn btn-secondary shadow-secondary btn-sm fs-sm rounded d-none d-lg-inline-flex' %>
-      </div>
-        <%= link_to '会員登録', new_user_path, class: 'btn btn-primary shadow-primary btn-sm fs-sm rounded d-none d-lg-inline-flex' %>
-      </div>
-    <% end %>
+    </div>
   </div>
 </header>
