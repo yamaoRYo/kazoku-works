@@ -19,11 +19,12 @@
     </div>
     <div class="offcanvas-body">
       <% if logged_in? %>
-        <%= link_to 'ファミリー', families_path(current_user.family), class: 'd-block mb-2' %>
-        <%= link_to 'イベント一覧', events_path, class: 'd-block mb-2' %>
-        <%= link_to 'イベント作成', new_event_path, class: 'd-block mb-2' %>
-        <%= link_to '思い出一覧', memories_path, class: 'd-block mb-2' %>
-        <%= link_to '思い出作成', new_memory_path, class: 'd-block mb-2' %>
+        <%= link_to 'Kazoku ページ', families_path(current_user.family), class: 'd-block mb-2' %>
+        <%= link_to 'Kazoku 招待', new_family_path, class: 'd-block mb-2' %>
+        <%= link_to 'イベント ページ', events_path, class: 'd-block mb-2' %>
+        <%= link_to 'イベント 作成', new_event_path, class: 'd-block mb-2' %>
+        <%= link_to '思い出 ページ', memories_path, class: 'd-block mb-2' %>
+        <%= link_to '思い出 作成', new_memory_path, class: 'd-block mb-2' %>
         <%= link_to 'ログアウト', logout_path, method: :delete, data: { controller: 'confirm', action: 'click->confirm#confirmLogout' }, class: 'd-block mb-2' %>
       <% else %>
         <%= link_to 'ログイン', login_path, class: 'd-block mb-2' %>
