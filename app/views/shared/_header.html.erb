@@ -12,23 +12,23 @@
   </div>
 
   <!-- Offcanvas Menu -->
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title">Menu</h5>
-      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  <div class="offcanvas offcanvas-end offcanvas-dark" tabindex="-1" id="offcanvasMenu">
+    <div class="offcanvas-header d-flex justify-content-between align-items-center"> <!-- Flexboxを使用して要素を並べる -->
+      <h5 class="offcanvas-title mb-0">Menu</h5> <!-- mb-0を追加して余分なマージンを削除 -->
+      <button type="button" class="btn btn-dark close-btn" data-bs-dismiss="offcanvas" aria-label="Close">Close</button> <!-- close-btnクラスを追加 -->
     </div>
     <div class="offcanvas-body">
       <% if logged_in? %>
-        <%= link_to 'Kazoku ページ', families_path(current_user.family), class: 'd-block mb-2' %>
-        <%= link_to 'Kazoku 招待', new_family_path, class: 'd-block mb-2' %>
-        <%= link_to 'イベント ページ', events_path, class: 'd-block mb-2' %>
-        <%= link_to 'イベント 作成', new_event_path, class: 'd-block mb-2' %>
-        <%= link_to '思い出 ページ', memories_path, class: 'd-block mb-2' %>
-        <%= link_to '思い出 作成', new_memory_path, class: 'd-block mb-2' %>
-        <%= link_to 'ログアウト', logout_path, method: :delete, data: { controller: 'confirm', action: 'click->confirm#confirmLogout' }, class: 'd-block mb-2' %>
+        <%= link_to 'Kazoku ページ', families_path(current_user.family) %>
+        <%= link_to 'Kazoku 招待', new_family_path %>
+        <%= link_to 'イベント ページ', events_path %>
+        <%= link_to 'イベント 作成', new_event_path %>
+        <%= link_to '思い出 ページ', memories_path %>
+        <%= link_to '思い出 作成', new_memory_path %>
+        <%= button_to 'ログアウト', logout_path, method: :delete, data: { controller: 'confirm', action: 'click->confirm#confirmLogout' }, class: 'btn btn-link d-block mb-2' %>
       <% else %>
-        <%= link_to 'ログイン', login_path, class: 'd-block mb-2' %>
-        <%= link_to '会員登録', new_user_path, class: 'd-block mb-2' %>
+        <%= link_to 'ログイン', login_path %>
+        <%= link_to '会員登録', new_user_path %>
       <% end %>
     </div>
   </div>

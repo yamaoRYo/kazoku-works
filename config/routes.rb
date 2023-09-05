@@ -1,23 +1,21 @@
 Rails.application.routes.draw do
-  get 'memories/index'
-  get 'memories/show'
-  get 'memories/new'
-  get 'memories/create'
-  get 'memories/update'
-  get 'memories/destroy'
+  get 'static_pages/privacy_policy'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
   root 'tops#index'
-
+  
   get 'login' => 'user_sessions#new', :as => :login
   post 'login' => "user_sessions#create"
   delete 'logout' => 'user_sessions#destroy', :as => :logout
   get 'auth/:provider/callback' => 'user_sessions#create'
-
+  
   post 'oauth/callback' => 'oauths#callback'
   get 'oauth/callback' => 'oauths#callback' 
   get 'oauth/:provider' => 'oauths#oauth', :as => :auth_at_provider
+
+  get 'privacy_policy', to: 'static_pages#privacy_policy'
+  get 'terms_of_service', to: 'static_pages#terms_of_service'
 
   resources :users, except: %i[index] do
     member do
