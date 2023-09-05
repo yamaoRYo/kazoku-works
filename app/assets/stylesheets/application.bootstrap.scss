@@ -36,8 +36,75 @@ label.required:after {
   text-decoration: none;
 }
 
+/* サムネイル画像 */
 .user-thumbnail {
   width: 50px;
   height: 50px;
   object-fit: cover;
 }
+
+/* Header */
+.offcanvas-dark {
+  background-color: #000;
+}
+
+.offcanvas-dark .offcanvas-body a {
+  color: #fff;
+  border-bottom: 1px solid #fff;
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+}
+
+.offcanvas-dark .offcanvas-body a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  text-decoration: underline; /* ホバー時のアンダーラインを追加 */
+}
+
+.offcanvas-dark .offcanvas-body a:last-child {
+  border-bottom: none;
+}
+
+.offcanvas-dark .offcanvas-body .submenu {
+  display: none;
+}
+
+.offcanvas-dark .offcanvas-body .submenu a {
+  padding-left: 30px;
+}
+
+/* Closeボタンのホバー時のスタイル */
+.close-btn:hover {
+  border: 1px solid #fff;
+}
+
+/* ログアウトボタンの基本スタイル */
+.btn-link.d-block.mb-2 {
+  color: #fff; /* 文字色を白に設定 */
+  text-decoration: none; /* アンダーラインを削除 */
+  display: block; /* ブロック要素として表示 */
+  padding: 10px 15px; /* パディングを追加 */
+  background-color: transparent; /* 背景色を透明に設定 */
+  text-align: left; /* テキストを左寄せに設定 */
+  border-radius: 0; /* 角丸を削除 */
+}
+
+/* ログアウトボタンのホバー時のスタイル */
+.btn-link.d-block.mb-2:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* ホバー時の背景色 */
+  text-decoration: underline; /* アンダーラインを追加 */
+}
+
+
+/* Footer */
+.footer-links a {
+  color: white; /* リンクの色を白に設定 */
+  margin-right: 2pt; /* 右側の間隔を増やす */
+  font-size: 0.9em; /* フォントサイズを小さく設定 */
+  text-decoration: none; /* アンダーラインを削除 */
+}
+
+.footer-links a:hover {
+  text-decoration: underline; /* ホバー時にアンダーラインを表示 */
+}
+
