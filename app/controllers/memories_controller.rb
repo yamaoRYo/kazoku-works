@@ -36,7 +36,6 @@ class MemoriesController < ApplicationController
   end
 
   def update
-
     if params[:memory][:photos]
       @memory.photos.attach(params[:memory][:photos])
       params[:memory].delete(:photos)
@@ -44,13 +43,23 @@ class MemoriesController < ApplicationController
     if @memory.update(memory_params)
       redirect_to @memory, notice: "Successfully updated memory."
     else
+      set_event_options  # この行を追加
+      flash[:alert] = @memory.errors.full_messages.join(", ")
       render :edit
     end
   end
+  
 
   def destroy
     @memory.destroy
     redirect_to memories_url, notice: "Successfully destroyed memory."
+  end
+
+  def delete_photo
+    set_memory
+    photo = ActiveStorage::Attachment.find(params[:photo_id])
+    photo.purge
+    redirect_to edit_memory_path(@memory), notice: "Successfully deleted photo."
   end
 
   private
@@ -78,13 +87,7 @@ class MemoriesController < ApplicationController
   def memory_params
     params.require(:memory).permit(:title, :details, :date, :event_id, :event_type, photos: [])
   end
-
-  def delete_photo
-    photo = ActiveStorage::Attachment.find(params[:photo_id])
-    photo.purge
-    redirect_to edit_memory_path(@memory), notice: "Successfully deleted photo."
-  end
-
+  
   def authorize_memory_access
     # ユーザーの家族に関連するイベントを取得
     family_events = current_user.family.users.flat_map(&:visible_events).uniq
