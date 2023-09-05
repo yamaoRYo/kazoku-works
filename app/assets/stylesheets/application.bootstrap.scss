@@ -36,6 +36,92 @@ label.required:after {
   text-decoration: none;
 }
 
+/* トップページの背景画像 */
+.intro {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.intro-bg {
+  width: 100%;
+  display: block;
+}
+
+.intro-text {
+  position: absolute;
+  top: 40%; /* 中央よりやや上に配置 */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white; /* テキストの色を白に設定。背景画像に応じて変更することができます */
+  text-align: center;
+  z-index: 10; /* 画像の上にテキストを表示 */
+}
+
+.intro {
+  margin-bottom: 50px; /* イントロとフィーチャーズの間の隙間を調整 */
+}
+
+/* トップページのカード */
+.features {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.features-card {
+  flex: 1;
+  max-width: calc(33.33% - 20px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.features-card:hover {
+  transform: translateY(-10px);
+}
+
+.features-card img {
+  width: 100%;
+  height: 200px; /* 画像の高さを統一 */
+  object-fit: cover; /* 画像のアスペクト比を保持しつつ、指定されたサイズに収める */
+  display: block;
+}
+
+.features-card h3, .features-card p {
+  padding: 15px;
+}
+
+.demo-card {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.card-content {
+  background-color: #333; /* 黒背景 */
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.card-content ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.card-content li {
+  color: white;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+
 /* サムネイル画像 */
 .user-thumbnail {
   width: 50px;
@@ -106,5 +192,23 @@ label.required:after {
 
 .footer-links a:hover {
   text-decoration: underline; /* ホバー時にアンダーラインを表示 */
+}
+
+/* クレジットテキストのスタイル */
+.credits p {
+  color: rgba(255, 255, 255, 0.7); /* 白字で薄めに */
+  font-size: 12px; /* 文字サイズを小さく */
+  display: inline-block; /* 横並びに */
+  margin-right: 15px; /* 各クレジットの間に隙間を追加 */
+}
+
+/* リンクのスタイルも白に */
+.credits a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: underline; /* 下線を追加 */
+}
+
+.credits a:hover {
+  color: rgba(255, 255, 255, 0.9); /* ホバー時の色を少し濃く */
 }
 
