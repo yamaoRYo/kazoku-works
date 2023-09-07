@@ -53,8 +53,11 @@ class MemoriesController < ApplicationController
 
   def destroy
     @memory.destroy
-    redirect_to memories_url, notice: "メモリーを削除しました！"
+    flash[:notice] = 'メモリーを削除しました！'
+    redirect_to memories_path
   end
+  
+  
 
   def delete_photo
     set_memory

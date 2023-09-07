@@ -47,7 +47,7 @@
   <div class="row" data-controller="visibility">
     <div class="col-sm-10">
       <p class="card-text fs-sm mb-2">
-        <%= form.select :visibility, Event.enum_options_for_select(:visibility), { include_blank: '選択してください' }, class: "form-select", data: { visibility_target: "select", action: "change->visibility#updateCheckboxes" } %>
+       <%= form.select :visibility, Event.enum_options_for_select(:visibility), { selected: 'everyone', include_blank: '選択してください' }, class: "form-select", data: { visibility_target: "select", action: "change->visibility#updateCheckboxes" } %>
       </p>
       <div data-visibility-target="checkboxes" style="display: none;">
         <% current_user.family.users.each do |user| %>

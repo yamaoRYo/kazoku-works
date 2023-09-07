@@ -2,13 +2,19 @@
 
 <div class="container mt-5">
   <% if @family %>
-    <h1 class="mb-4"><%= yield(:title) %></h1>
+    <div class="d-flex align-items-center">
+      <h1 class="mb-4">Family</h1>
+      <div class="ms-3 small">
+        <%= link_to "家族名の変更", edit_family_path(@family) %>
+      </div>
+    </div>
+
     <%= render @family %>
-    <%= link_to '家族招待', new_family_invitation_path(@family), class: 'btn btn-primary mt-3' %>
+    <%= link_to '家族を招待する', new_family_invitation_path(@family), class: 'btn btn-custom mt-3' %>
   <% else %>
-    <h3>Welcome to Kazoku-Works</h3>
+    <h3>ようこそ Kazoku-Works へ！</h3>
     <div class="alert alert-info" role="alert">
-      <p>Please create a family.</p>
+      <p>さっそく家族を作成しましょう！</p>
       <%= link_to "Create Family", new_family_path, class: "btn btn-primary" %>
     </div>
   <% end %>

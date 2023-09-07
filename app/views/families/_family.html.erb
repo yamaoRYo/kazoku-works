@@ -1,13 +1,11 @@
 <%= turbo_frame_tag family do %>
   <div class="card border-primary card-hover">
     <div class="card-body">
-      <h3 class="card-title">Kazoku の名前</h3>
       <div style="display: flex; align-items: center;">
-        <p class="card-subtitle fs-3"><%= family.name %></p>
+        <h3 class="card-title"><%= family.name %></h3>
       </div> 
-      <%= link_to "編集", edit_family_path(@family) %>
 
-      <h3 class="card-title mt-4">Kazoku のみんな</h3>
+      <h4 class="card-title mt-4">Menber</h4>
       <ul class="list-group list-group-flush">
         <% family.users.each do |user| %>
           <li class="list-group-item">

@@ -1,4 +1,7 @@
 class InvitationsController < ApplicationController
+
+  skip_before_action :require_login, only: [:accept]
+
   def new
     @family = Family.find(params[:family_id])
     @invitation = @family.invitations.build
@@ -21,14 +24,16 @@ class InvitationsController < ApplicationController
 
   def accept
     invitation = Invitation.find_by(token: params[:id])
-    if invitation
+  
+    if invitation && invitation.expires_at > Time.current
       session[:invitation_token] = invitation.token
       redirect_to new_user_path
     else
-      flash[:alert] = '招待URLが無効です'
+      flash[:alert] = '招待URLが無効または期限切れです'
       redirect_to root_path
     end
   end
+  
 
   private
 
