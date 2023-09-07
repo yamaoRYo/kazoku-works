@@ -2,6 +2,7 @@ class MemoriesController < ApplicationController
   before_action :require_login
   before_action :set_memory, only: [:show, :edit, :update, :destroy]
   before_action :authorize_memory_access, only: %i[show edit update destroy]
+  before_action :set_event_options, only: [:new, :edit]
   
   def index
     # everyoneのvisibilityを持つイベントに関連するメモリーを取得
@@ -11,8 +12,16 @@ class MemoriesController < ApplicationController
     # partialのvisibilityを持つイベントに関連するメモリーを取得
     partial_events = Event.joins(:visible_to_users).where(visibility: "partial", event_visibilities: { user_id: current_user.id })
     @memories = @memories.or(Memory.with_attached_photos.where(event: partial_events))
-  end
 
+    # 現在のユーザーが所属する家族のユーザーを取得
+    family_users = User.where(family_id: current_user.family_id)
+
+    # これらのユーザーが作成したイベントを取得
+    family_events = Event.where(user_id: family_users.ids)
+
+    # 現在のユーザーに表示可能なイベントのみをフィルタリング
+    @events = family_events.select { |event| event.visible_to(current_user) }
+  end
 
   def show;
   end
@@ -81,13 +90,11 @@ class MemoriesController < ApplicationController
     family_events = Event.where(user_id: family_users.ids)
   
     # 現在のユーザーに表示可能なイベントのみをフィルタリング
-    visible_events = family_events.select { |event| event.visible_to(current_user) }
+    @events = family_events.select { |event| event.visible_to(current_user) }
   
     # イベントの選択肢を設定
-    @event_options = visible_events.map { |event| [event.title, event.id] }
-  end
-  
-  
+    @event_options = @events.map { |event| [event.title, event.id] }
+  end    
 
   def memory_params
     params.require(:memory).permit(:title, :details, :date, :event_id, :event_type, photos: [])

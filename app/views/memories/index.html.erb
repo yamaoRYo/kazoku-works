@@ -1,7 +1,7 @@
 <%= provide(:title, t('activerecord.models.memory')) %>
 
 <%= turbo_frame_tag 'memories' do %>
-  <% if @event.blank? %>
+  <% if @events.empty? %>
     <div class="container ml-3">
       <p>まだ思い出にするイベントがありません！最初のイベントを作成してみましょう！</p>
       <%= link_to '新規イベントを作成する', new_event_path, data: { turbo: 'false' }, class: "small d-block mt-2" %>
