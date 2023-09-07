@@ -5,5 +5,6 @@ class Invitation < ApplicationRecord
   private
   def generate_token
     self.token = SecureRandom.hex(10)
-  end
+    self.expires_at = 24.hours.from_now
+  end  
 end
