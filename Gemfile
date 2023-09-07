@@ -94,3 +94,6 @@ gem 'mini_magick', '~> 4.11', '>= 4.11.0'
 
 # 翻訳機能を実装するためのgem
 gem 'rails-i18n'
+
+# AWS S3を使うためのgem
+gem 'aws-sdk-s3', require: false
