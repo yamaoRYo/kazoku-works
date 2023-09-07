@@ -6,12 +6,13 @@ class MemoriesController < ApplicationController
   def index
     # everyoneのvisibilityを持つイベントに関連するメモリーを取得
     everyone_events = Event.where(visibility: "everyone")
-    @memories = Memory.where(event: everyone_events)
+    @memories = Memory.with_attached_photos.where(event: everyone_events)
   
     # partialのvisibilityを持つイベントに関連するメモリーを取得
     partial_events = Event.joins(:visible_to_users).where(visibility: "partial", event_visibilities: { user_id: current_user.id })
-    @memories = @memories.or(Memory.where(event: partial_events))
+    @memories = @memories.or(Memory.with_attached_photos.where(event: partial_events))
   end
+
 
   def show;
   end
@@ -28,7 +29,7 @@ class MemoriesController < ApplicationController
   def create
     @memory = Memory.new(memory_params)
     if @memory.save
-      flash[:notice] = 'Memory was successfully created.'
+      flash[:notice] = 'メモリーを作成しました！'
       redirect_to @memory
     else
       render :new, status: :unprocessable_entity
@@ -41,7 +42,7 @@ class MemoriesController < ApplicationController
       params[:memory].delete(:photos)
     end
     if @memory.update(memory_params)
-      redirect_to @memory, notice: "Successfully updated memory."
+      redirect_to @memory, notice: "メモリーを更新しました！"
     else
       set_event_options  # この行を追加
       flash[:alert] = @memory.errors.full_messages.join(", ")
@@ -52,21 +53,22 @@ class MemoriesController < ApplicationController
 
   def destroy
     @memory.destroy
-    redirect_to memories_url, notice: "Successfully destroyed memory."
+    redirect_to memories_url, notice: "メモリーを削除しました！"
   end
 
   def delete_photo
     set_memory
     photo = ActiveStorage::Attachment.find(params[:photo_id])
     photo.purge
-    redirect_to edit_memory_path(@memory), notice: "Successfully deleted photo."
+    redirect_to edit_memory_path(@memory), notice: "写真を削除しました！"
   end
 
   private
 
   def set_memory
-    @memory = Memory.find(params[:id])
+    @memory = Memory.with_attached_photos.find(params[:id])
   end
+
 
   def set_event_options
     # 現在のユーザーが所属する家族のユーザーを取得
