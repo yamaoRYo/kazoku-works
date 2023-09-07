@@ -1,24 +1,31 @@
 <%= provide(:title, t('activerecord.models.memory')) %>
 
 <%= turbo_frame_tag 'memories' do %>
-  <div class="container mt-5">
-    <h1 class="mb-4">Memories</h1>
+  <div class="mb-4">
+    <h1 class="display-4 mr-3">Memories</h1>
+    <div class="container ml-3">
+      <%= link_to '思い出を作成する', new_memory_path, data: { turbo_action: 'replace' }, class: "small d-block mt-2" %>
+    </div>
+  </div>
 
-    <% @memories.each do |memory| %>
-      <div class="card mb-4">
+  <% @memories.each do |memory| %>
+    <div class="container ml-3">
+      <div class="card compact-card mb-4 shadow ml-3">
         <div class="card-body">
-          <h5 class="card-title"><%= memory.title %></h5>
-            <p class="card-text"><%= memory.date.strftime('%Y-%m-%d') %></p>
-          <div class="d-flex justify-content-between">
-            <%= link_to t('activerecord.action.show'), memory, class: "btn btn-primary", data: { turbo_frame: 'memories', turbo_action: 'replace' } %>
+          <h5 class="card-title font-weight-bold"><%= memory.title %></h5>
+          <% if memory.date.present? %>
+            <%= memory.date.strftime('%Y-%m-%d') %>
+          <% else %>
+            期日未設定
+          <% end %>
+        </div>
+          <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
+            <%= link_to t('activerecord.action.show'), memory, class: "btn btn-custom btn-sm", data: { turbo_frame: 'memories', turbo_action: 'replace' } %>
+            <%= link_to t('activerecord.action.destroy'), memory_path(memory), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" }, class: 'text-decoration-none small text-danger' %>
           </div>
         </div>
       </div>
-    <% end %>
-
-    <div class="mt-4">
-      <%= link_to t('activerecord.action.create'), new_memory_path, class: "btn btn-success", data: { turbo_action: 'replace' } %>
     </div>
-  </div>
+  <% end %>
 <% end %>
 

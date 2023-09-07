@@ -284,3 +284,17 @@ label.required:after {
   color: rgba(255, 255, 255, 0.9); /* ホバー時の色を少し濃く */
 }
 
+/* リンクのスタイル */
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* カードのスタイル */
+.compact-card {
+  max-width: 600px; /* この値はお好みに合わせて調整してください */
+}
