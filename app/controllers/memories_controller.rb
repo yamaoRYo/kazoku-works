@@ -2,26 +2,26 @@ class MemoriesController < ApplicationController
   before_action :require_login
   before_action :set_memory, only: [:show, :edit, :update, :destroy]
   before_action :authorize_memory_access, only: %i[show edit update destroy]
-  before_action :set_event_options, only: [:new, :edit]
+  before_action :set_event_options, only: [:new, :edit, :update]
   
   def index
+    # 現在のユーザーが所属する家族のユーザーを取得
+    family_users = User.where(family_id: current_user.family_id)
+  
+    # これらのユーザーが作成したイベントを取得
+    family_events = Event.where(user_id: family_users.ids)
+  
     # everyoneのvisibilityを持つイベントに関連するメモリーを取得
-    everyone_events = Event.where(visibility: "everyone")
+    everyone_events = family_events.where(visibility: "everyone")
     @memories = Memory.with_attached_photos.where(event: everyone_events)
   
     # partialのvisibilityを持つイベントに関連するメモリーを取得
-    partial_events = Event.joins(:visible_to_users).where(visibility: "partial", event_visibilities: { user_id: current_user.id })
+    partial_events = family_events.joins(:visible_to_users).where(visibility: "partial", event_visibilities: { user_id: current_user.id })
     @memories = @memories.or(Memory.with_attached_photos.where(event: partial_events))
-
-    # 現在のユーザーが所属する家族のユーザーを取得
-    family_users = User.where(family_id: current_user.family_id)
-
-    # これらのユーザーが作成したイベントを取得
-    family_events = Event.where(user_id: family_users.ids)
-
+  
     # 現在のユーザーに表示可能なイベントのみをフィルタリング
     @events = family_events.select { |event| event.visible_to(current_user) }
-  end
+  end  
 
   def show;
   end
@@ -53,7 +53,6 @@ class MemoriesController < ApplicationController
     if @memory.update(memory_params)
       redirect_to @memory, notice: "メモリーを更新しました！"
     else
-      set_event_options  # この行を追加
       flash[:alert] = @memory.errors.full_messages.join(", ")
       render :edit
     end
@@ -101,13 +100,18 @@ class MemoriesController < ApplicationController
   end
   
   def authorize_memory_access
-    # ユーザーの家族に関連するイベントを取得
-    family_events = current_user.family.users.flat_map(&:visible_events).uniq
-
-    # 上記で取得したイベントに関連するメモリーを確認
+    # メモリーのイベントに関連するアクセス制限
     if !@memory.event.visible_to(current_user)
       flash[:alert] = 'アクセス権限がありません'
       redirect_to memories_path
+      return
     end
-  end
+  
+    # メモリーが現在のユーザーの家族に関連しているかの確認
+    unless User.find(@memory.event.user_id).family == current_user.family
+      flash[:alert] = 'アクセス権限がありません'
+      redirect_to memories_path
+      return
+    end
+  end  
 end
