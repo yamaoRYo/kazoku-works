@@ -5,29 +5,14 @@ class MemoriesController < ApplicationController
   before_action :set_event_options, only: [:new, :edit, :update]
   
   def index
-    # 現在のユーザーが所属する家族のユーザーを取得
-    family_users = User.where(family_id: current_user.family_id)
-  
-    # これらのユーザーが作成したイベントを取得
-    family_events = Event.where(user_id: family_users.ids)
-  
-    # everyoneのvisibilityを持つイベントに関連するメモリーを取得
-    everyone_events = family_events.where(visibility: "everyone")
-    @memories = Memory.with_attached_photos.where(event: everyone_events)
-  
-    # partialのvisibilityを持つイベントに関連するメモリーを取得
-    partial_events = family_events.joins(:visible_to_users).where(visibility: "partial", event_visibilities: { user_id: current_user.id })
-    @memories = @memories.or(Memory.with_attached_photos.where(event: partial_events))
-  
-    # 現在のユーザーに表示可能なイベントのみをフィルタリング
-    @events = family_events.select { |event| event.visible_to(current_user) }
-  end  
+    @memories = Memory.with_attached_photos.where(event: Event.visible_to(current_user))
+    @events = Event.visible_to(current_user)
+  end    
 
   def show;
   end
 
-  def edit
-    set_event_options
+  def edit;
   end
 
   def new
@@ -77,9 +62,12 @@ class MemoriesController < ApplicationController
   private
 
   def set_memory
-    @memory = Memory.with_attached_photos.find(params[:id])
-  end
-
+    @memory = Memory.with_attached_photos.find_by(id: params[:id])
+    unless @memory
+      flash[:alert] = '指定されたメモリーは存在しません。'
+      redirect_to memories_path
+    end
+  end  
 
   def set_event_options
     # 現在のユーザーが所属する家族のユーザーを取得

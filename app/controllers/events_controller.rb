@@ -26,10 +26,8 @@ class EventsController < ApplicationController
   
 
   def index
-    @events = Event.all.select do |event|
-      event.visible_to(current_user) && User.find(event.user_id).family == current_user.family
-    end
-  end
+    @events = Event.visible_to(current_user)
+  end 
 
   def update
     if @event.update(event_params)
@@ -48,8 +46,14 @@ class EventsController < ApplicationController
   private
 
   def set_event
-    @event = Event.find(params[:id])
+    @event = Event.find_by(id: params[:id])
+    unless @event
+      flash[:alert] = '指定されたイベントは存在しません。'
+      redirect_to events_path
+    end
   end
+  
+  
 
   def event_params
     params.require(:event).permit(:event_type, :title, :start_date, :end_date, :content, :visibility, visible_to_user_ids: [])

@@ -36,11 +36,7 @@ class FamiliesController < ApplicationController
   
   def show; end
 
-  def edit
-    if current_user.family != @family
-      flash[:alert] = "You are not a member of this family."
-      redirect_to families_path
-    end
+  def edit;
   end
 
   def update
@@ -59,6 +55,10 @@ class FamiliesController < ApplicationController
   end
 
   def set_family
-    @family = Family.find(params[:id])
+    @family = Family.find_by(id: params[:id])
+    unless @family
+      flash[:alert] = "指定されたファミリーは存在しません。"
+      redirect_to families_path
+    end
   end
 end
