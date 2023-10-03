@@ -89,14 +89,14 @@ class MemoriesController < ApplicationController
   def authorize_memory_access
     # メモリーのイベントに関連するアクセス制限
     if !@memory.event.visible_to(current_user)
-      flash[:alert] = t('errors.messages.no_access')
+      flash[:alert] = t('messages.errors.no_access')
       redirect_to memories_path
       return
     end
   
     # メモリーが現在のユーザーの家族に関連しているかの確認
     unless User.find(@memory.event.user_id).family == current_user.family
-      flash[:alert] = t('errors.messages.no_access')
+      flash[:alert] = t('messages.errors.no_access')
       redirect_to memories_path
       return
     end
