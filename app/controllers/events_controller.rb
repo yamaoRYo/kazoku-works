@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   before_action :require_login
   before_action :set_event, only: %i[show edit update destroy]
-  before_action :authorize_user_family_access, only: %i[show edit update destroy]
+  before_action :authorize_event_access, only: %i[show edit update destroy]
 
   def new
     @event = Event.new
@@ -57,5 +57,19 @@ class EventsController < ApplicationController
 
   def event_params
     params.require(:event).permit(:event_type, :title, :start_date, :end_date, :content, :visibility, visible_to_user_ids: [])
+  end
+end
+
+def authorize_event_access
+  if !@event.visible_to(current_user)
+    flash[:alert] = t('messages.errors.no_access')
+    redirect_to events_path
+    return
+  end
+
+  unless User.find(@event.user_id).family == current_user.family
+    flash[:alert] = t('messages.errors.no_access')
+    redirect_to events_path
+    return
   end
 end
