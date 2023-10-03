@@ -2,32 +2,17 @@ class MemoriesController < ApplicationController
   before_action :require_login
   before_action :set_memory, only: [:show, :edit, :update, :destroy]
   before_action :authorize_memory_access, only: %i[show edit update destroy]
-  before_action :set_event_options, only: [:new, :edit]
+  before_action :set_event_options, only: [:new, :edit, :update]
   
   def index
-    # everyoneのvisibilityを持つイベントに関連するメモリーを取得
-    everyone_events = Event.where(visibility: "everyone")
-    @memories = Memory.with_attached_photos.where(event: everyone_events)
-  
-    # partialのvisibilityを持つイベントに関連するメモリーを取得
-    partial_events = Event.joins(:visible_to_users).where(visibility: "partial", event_visibilities: { user_id: current_user.id })
-    @memories = @memories.or(Memory.with_attached_photos.where(event: partial_events))
-
-    # 現在のユーザーが所属する家族のユーザーを取得
-    family_users = User.where(family_id: current_user.family_id)
-
-    # これらのユーザーが作成したイベントを取得
-    family_events = Event.where(user_id: family_users.ids)
-
-    # 現在のユーザーに表示可能なイベントのみをフィルタリング
-    @events = family_events.select { |event| event.visible_to(current_user) }
-  end
+    @memories = Memory.with_attached_photos.where(event: Event.visible_to(current_user))
+    @events = Event.visible_to(current_user)
+  end    
 
   def show;
   end
 
-  def edit
-    set_event_options
+  def edit;
   end
 
   def new
@@ -38,7 +23,7 @@ class MemoriesController < ApplicationController
   def create
     @memory = Memory.new(memory_params)
     if @memory.save
-      flash[:notice] = 'メモリーを作成しました！'
+      flash[:notice] = t('messages.success.create', model_name: Memory.model_name.human)
       redirect_to @memory
     else
       render :new, status: :unprocessable_entity
@@ -51,19 +36,17 @@ class MemoriesController < ApplicationController
       params[:memory].delete(:photos)
     end
     if @memory.update(memory_params)
-      redirect_to @memory, notice: "メモリーを更新しました！"
+      redirect_to @memory, notice: t('messages.success.update', model_name: Memory.model_name.human)
     else
-      set_event_options  # この行を追加
       flash[:alert] = @memory.errors.full_messages.join(", ")
       render :edit
     end
-  end
-  
+  end  
 
   def destroy
     @memory.destroy
-    flash[:notice] = 'メモリーを削除しました！'
-    redirect_to memories_path
+    @memories = Memory.with_attached_photos.where(event: Event.visible_to(current_user))
+    flash.now[:notice] = t('messages.success.destroy', model_name: Memory.model_name.human)
   end
   
   
@@ -72,15 +55,18 @@ class MemoriesController < ApplicationController
     set_memory
     photo = ActiveStorage::Attachment.find(params[:photo_id])
     photo.purge
-    redirect_to edit_memory_path(@memory), notice: "写真を削除しました！"
+    redirect_to edit_memory_path(@memory), notice: t('messages.success.delete_photo')
   end
 
   private
 
   def set_memory
-    @memory = Memory.with_attached_photos.find(params[:id])
-  end
-
+    @memory = Memory.with_attached_photos.find_by(id: params[:id])
+    unless @memory
+      flash[:alert] = t('messages.errors.not_found', model_name: Memory.model_name.human)
+      redirect_to memories_path
+    end
+  end  
 
   def set_event_options
     # 現在のユーザーが所属する家族のユーザーを取得
@@ -101,13 +87,18 @@ class MemoriesController < ApplicationController
   end
   
   def authorize_memory_access
-    # ユーザーの家族に関連するイベントを取得
-    family_events = current_user.family.users.flat_map(&:visible_events).uniq
-
-    # 上記で取得したイベントに関連するメモリーを確認
+    # メモリーのイベントに関連するアクセス制限
     if !@memory.event.visible_to(current_user)
-      flash[:alert] = 'アクセス権限がありません'
+      flash[:alert] = t('errors.messages.no_access')
       redirect_to memories_path
+      return
     end
-  end
+  
+    # メモリーが現在のユーザーの家族に関連しているかの確認
+    unless User.find(@memory.event.user_id).family == current_user.family
+      flash[:alert] = t('errors.messages.no_access')
+      redirect_to memories_path
+      return
+    end
+  end  
 end

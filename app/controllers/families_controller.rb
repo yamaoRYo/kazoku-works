@@ -13,7 +13,7 @@ class FamiliesController < ApplicationController
 
   def new
     if current_user.family.present?
-      flash[:alert] = "You are already a member of a family."
+      flash[:alert] = t('messages.errors.already_created', model_name: Family.model_name.human)
       redirect_to families_path
     else
       @family = Family.new
@@ -27,7 +27,7 @@ class FamiliesController < ApplicationController
     if @family.save
       current_user.family = @family
       current_user.save
-      flash[:notice] = "Family created successfully."
+      flash[:notice] = t('messages.success.create', model_name: Family.model_name.human)
       redirect_to  family_path(@family)
     else
       render :new, status: :unprocessable_entity
@@ -36,16 +36,12 @@ class FamiliesController < ApplicationController
   
   def show; end
 
-  def edit
-    if current_user.family != @family
-      flash[:alert] = "You are not a member of this family."
-      redirect_to families_path
-    end
+  def edit;
   end
 
   def update
     if @family.update(family_params)
-      flash.now[:notice] = "Family updated successfully."
+      flash.now[:notice] = t('messages.success.update', model_name: Family.model_name.human)
     else
       render :edit, status: :unprocessable_entity
     end
@@ -59,6 +55,10 @@ class FamiliesController < ApplicationController
   end
 
   def set_family
-    @family = Family.find(params[:id])
+    @family = Family.find_by(id: params[:id])
+    unless @family
+      flash[:alert] = t('messages.errors.not_found', model_name: Family.model_name.human)
+      redirect_to families_path
+    end
   end
 end

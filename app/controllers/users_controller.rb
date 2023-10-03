@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     end
     if @user.save
       session[:user_id] = @user.id
-      redirect_to @user, notice: 'User was successfully created.'
+      redirect_to @user, notice: t('messages.success.create', model_name: User.model_name.human)
     else
       render :new , status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class UsersController < ApplicationController
 
   def edit
     if current_user != @user
-      flash[:alert] = "You are not allowed to edit this user."
+      flash[:alert] = t('messages.errors.not_found', model_name: User.model_name.human)
       redirect_to user_path(@user)
     end
   end
@@ -37,12 +37,12 @@ class UsersController < ApplicationController
   def destroy_image
     @user = User.find(params[:id])
     @user.image.purge
-    redirect_to @user, notice: 'イメージを削除しました'
+    redirect_to @user, notice: t('messages.success.delete_image')
   end
 
   def update
     if @user.update!(detail_params)
-      flash.now[:notice] = "ユーザー情報を更新しました"
+      flash.now[:notice] = t('messages.success.update', model_name: User.model_name.human)
     else
       render :edit, status: :unprocessable_entity
     end
@@ -55,7 +55,11 @@ class UsersController < ApplicationController
   end
 
   def set_user
-    @user = User.find(params[:id])
+    @user = User.find_by(id: params[:id])
+    unless @user
+      flash[:alert] = t('messages.errors.not_found', model_name: User.model_name.human  )
+      redirect_to families_path
+    end
   end
   
   def detail_params

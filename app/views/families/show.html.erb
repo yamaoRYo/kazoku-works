@@ -1,24 +1,19 @@
 <% provide(:title, 'Family') %>
 
 <div class="container mt-5">
-  <h1 class="mb-4"><%= yield(:title) %></h1>
-  <%= turbo_frame_tag @family do %>
-    <div class="card border-primary card-hover">
-      <div class="card-body">
-        <h3 class="card-title">Family Name</h3>
-        <div style="display: flex; align-items: center;">
-          <p class="card-subtitle fs-3"><%= @family.name %></p>
-        </div> 
-        <%= link_to "edit ", edit_family_path(@family) %>
-
-        <h3 class="card-title mt-4">Members</h3>
-        <ul class="list-group list-group-flush">
-          <% @family.users.each do |user| %>
-            <li class="list-group-item"><%= link_to user.name, user_path(user), data: { turbo: false } %></li>
-          <% end %>
-        </ul>
+  <% if @family %>
+    <div class="d-flex align-items-center">
+      <h1 class="mb-4">Family</h1>
+      <div class="ms-3 small">
+        <%= link_to "家族名の変更", edit_family_path(@family) %>
       </div>
     </div>
+
+    <%= render @family %>
+    <%= link_to '家族招待', new_family_invitation_path(@family), class: 'btn btn-primary mt-3' %>
+  <% else %>
+    <div class="text-center">
+      <h1 class="mb-4">家族を作成しましょう</h1>
+      <%= link_to '家族を作成する', new_family_path, class: 'btn btn-primary' %>
+    </div>
   <% end %>
-  <%= link_to '家族招待', new_family_invitation_path(@family), class: 'btn btn-primary mt-3' %>
-</div>

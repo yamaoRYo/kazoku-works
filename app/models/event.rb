@@ -11,7 +11,6 @@ class Event < ApplicationRecord
   validates :title, presence: true
   validates :start_date, presence: true
   validates :end_date, presence: true
-  
   # イベントの公開範囲を判定するメソッド
   def visible_to(user)
     case visibility
@@ -25,5 +24,17 @@ class Event < ApplicationRecord
     else
       false
     end
+  end
+  
+  # スコープ
+  # 特定のユーザーに表示可能なイベントを取得するscope
+  scope :visible_to, -> (user) do
+    family_users = User.where(family_id: user.family_id)
+
+    everyone_events = where(user_id: family_users.ids, visibility: "everyone").to_a
+    partial_events = joins(:visible_to_users)
+                    .where(user_id: family_users.ids, visibility: "partial", event_visibilities: { user_id: user.id }).to_a
+
+    Event.where(id: (everyone_events + partial_events).map(&:id))
   end
 end

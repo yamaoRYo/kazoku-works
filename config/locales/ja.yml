@@ -173,6 +173,26 @@ ja:
       long: "%Y/%m/%d %H:%M"
       short: "%m/%d %H:%M"
     pm: 午後
+  messages:
+    success:
+      update: "%{model_name}を更新しました。"
+      create: "%{model_name}を作成しました。"
+      login: "ログインしました。"
+      logout: "ログアウトしました。"
+      destroy: "%{model_name}を削除しました。"
+      delete_photo: "画像を削除しました。"
+      delete_image: "イメージを削除しました。"
+      invitation_url: "招待URLを発行しました。"
+
+    errors:
+      no_access: "アクセス権限がありません。"
+      not_found: "指定された%{model_name}は存在しません。"
+      login_required: "ログインしてください。"
+      update_failed: "%{model_name}の更新に失敗しました。"
+      create_failed: "%{model_name}の作成に失敗しました。"
+      already_created: "%{model_name}はすでに作成されています。"
+      destroy_failed: "%{model_name}の削除に失敗しました。"
+      invalid_invitation_token: "招待URLが無効です。"
   activerecord:
     action:
       create: 作成
@@ -184,6 +204,8 @@ ja:
     models:
       event: イベント
       memory: 思い出
+      family: 家族
+      user: ユーザー
     attributes:
       event:
         title: タイトル
@@ -221,3 +243,4 @@ ja:
     grandfather: 祖父
     grandmother: 祖母
     other: その他
+  

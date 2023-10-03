@@ -298,3 +298,13 @@ a:hover {
 .compact-card {
   max-width: 600px; /* この値はお好みに合わせて調整してください */
 }
+
+
+/* フォームのスタイル */
+/* ユーザー詳細ページのフォーム */
+.readonly-input {
+  border: none;
+  outline: none;
+  background-color: transparent; /* 背景色も透明にする場合 */
+}
+

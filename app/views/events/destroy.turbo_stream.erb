@@ -1,0 +1,5 @@
+<%= turbo_stream.remove dom_id(@event) %>
+<%= turbo_stream.replace "events_list" do %>
+  <%= render @events %>
+<% end %>
+<%= render_turbo_stream_flash_messages %>
