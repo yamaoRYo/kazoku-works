@@ -11,7 +11,7 @@ class EventsController < ApplicationController
     event = Event.new(event_params)
     event.user_id = current_user.id
     if event.save
-      flash[:notice] = 'Event was successfully created.'
+      flash[:notice] = t('messages.success.create', model_name: Event.model_name.human)
       redirect_to event
     else
       render :new, status: :unprocessable_entity
@@ -31,7 +31,7 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      redirect_to @event, notice: 'Event was successfully updated.'
+      redirect_to @event, notice: t('messages.success.update', model_name: Event.model_name.human)
     else
       render :edit, status: :unprocessable_entity
     end
@@ -39,16 +39,16 @@ class EventsController < ApplicationController
 
   def destroy
     @event.destroy
-    flash[:notice] = 'Event was successfully destroyed.'
-    redirect_to events_path
-  end
+    @events = Event.visible_to(current_user)
+    flash.now[:notice] = t('messages.success.destroy', model_name: Event.model_name.human)
+  end  
 
   private
 
   def set_event
     @event = Event.find_by(id: params[:id])
     unless @event
-      flash[:alert] = '指定されたイベントは存在しません。'
+      flash[:alert] = t('messages.errors.not_found', model_name: Event.model_name.human)
       redirect_to events_path
     end
   end

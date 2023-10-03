@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   get 'privacy_policy', to: 'static_pages#privacy_policy'
   get 'terms_of_service', to: 'static_pages#terms_of_service'
 
+  get '/users', to: redirect('/families')
+  
   resources :users, except: %i[index] do
     member do
         delete :destroy_image

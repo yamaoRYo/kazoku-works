@@ -20,7 +20,7 @@
     <div class="offcanvas-body">
       <% if logged_in? %>
         <%= link_to 'Kazoku ページ', families_path(current_user.family) %>
-        <%= link_to 'Kazoku 招待', new_family_path %>
+        <%= link_to 'Kazoku 招待', new_family_invitation_path(current_user.family) %>
         <%= link_to 'イベント ページ', events_path %>
         <%= link_to 'イベント 作成', new_event_path %>
         <%= link_to '思い出 ページ', memories_path %>

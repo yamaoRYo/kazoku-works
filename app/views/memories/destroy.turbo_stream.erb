@@ -1,0 +1,6 @@
+<%= turbo_stream.remove dom_id(@memory) %>
+<%= turbo_stream.replace "memories_list" do %>
+  <%= render @memories %>
+<% end %>
+<%= render_turbo_stream_flash_messages %>
+

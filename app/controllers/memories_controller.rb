@@ -23,7 +23,7 @@ class MemoriesController < ApplicationController
   def create
     @memory = Memory.new(memory_params)
     if @memory.save
-      flash[:notice] = 'メモリーを作成しました！'
+      flash[:notice] = t('messages.success.create', model_name: Memory.model_name.human)
       redirect_to @memory
     else
       render :new, status: :unprocessable_entity
@@ -36,18 +36,17 @@ class MemoriesController < ApplicationController
       params[:memory].delete(:photos)
     end
     if @memory.update(memory_params)
-      redirect_to @memory, notice: "メモリーを更新しました！"
+      redirect_to @memory, notice: t('messages.success.update', model_name: Memory.model_name.human)
     else
       flash[:alert] = @memory.errors.full_messages.join(", ")
       render :edit
     end
-  end
-  
+  end  
 
   def destroy
     @memory.destroy
-    flash[:notice] = 'メモリーを削除しました！'
-    redirect_to memories_path
+    @memories = Memory.with_attached_photos.where(event: Event.visible_to(current_user))
+    flash.now[:notice] = t('messages.success.destroy', model_name: Memory.model_name.human)
   end
   
   
@@ -56,7 +55,7 @@ class MemoriesController < ApplicationController
     set_memory
     photo = ActiveStorage::Attachment.find(params[:photo_id])
     photo.purge
-    redirect_to edit_memory_path(@memory), notice: "写真を削除しました！"
+    redirect_to edit_memory_path(@memory), notice: t('messages.success.delete_photo')
   end
 
   private
@@ -64,7 +63,7 @@ class MemoriesController < ApplicationController
   def set_memory
     @memory = Memory.with_attached_photos.find_by(id: params[:id])
     unless @memory
-      flash[:alert] = '指定されたメモリーは存在しません。'
+      flash[:alert] = t('messages.errors.not_found', model_name: Memory.model_name.human)
       redirect_to memories_path
     end
   end  
@@ -90,14 +89,14 @@ class MemoriesController < ApplicationController
   def authorize_memory_access
     # メモリーのイベントに関連するアクセス制限
     if !@memory.event.visible_to(current_user)
-      flash[:alert] = 'アクセス権限がありません'
+      flash[:alert] = t('errors.messages.no_access')
       redirect_to memories_path
       return
     end
   
     # メモリーが現在のユーザーの家族に関連しているかの確認
     unless User.find(@memory.event.user_id).family == current_user.family
-      flash[:alert] = 'アクセス権限がありません'
+      flash[:alert] = t('errors.messages.no_access')
       redirect_to memories_path
       return
     end
