@@ -14,10 +14,10 @@ class InvitationsController < ApplicationController
       invitation = @family.invite_user
       invitation_url = accept_invitation_url(invitation.token)
       session[:invitation_url] = invitation_url
-      flash[:notice] = "招待URLを生成しました"
+      flash[:notice] = t('messages.success.invitation_url')
       redirect_to new_family_invitation_path(@family)
     else
-      flash[:alert] = '管理者以外は招待できません'
+      flash[:alert] = t('messages.errors.no_access')
       redirect_to family_path(@family)
     end
   end
@@ -29,7 +29,7 @@ class InvitationsController < ApplicationController
       session[:invitation_token] = invitation.token
       redirect_to new_user_path
     else
-      flash[:alert] = '招待URLが無効または期限切れです'
+      flash[:alert] = t('messages.errors.invalid_invitation')
       redirect_to root_path
     end
   end
