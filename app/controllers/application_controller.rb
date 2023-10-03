@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
         if current_user 
             target_family = @user&.family || @family || current_user.family
             if current_user.family != target_family
-                flash[:alert] = 'アクセス権限がありません'
+                flash[:alert] = t('messages.errors.no_access')
                 redirect_to families_path
             end
         end
@@ -16,6 +16,6 @@ class ApplicationController < ActionController::Base
     protected
 
     def not_authenticated
-        redirect_to login_path, alert: "Please login first"
+        redirect_to login_path, alert: t('messages.errors.login_required')
     end
 end
