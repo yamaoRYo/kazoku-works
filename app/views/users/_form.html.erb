@@ -23,19 +23,22 @@
                                         <%= form.label :birthdate, t('activerecord.attributes.user.birthdate'), class: 'form-label' %>
                                         <%= form.date_field :birthdate,
                                                             data: { birthdate_calculations_target: 'birthdate', action: 'change->birthdate-calculations#calculate' }, 
-                                                            label_as_placeholder: true %>
+                                                            label_as_placeholder: true,
+                                                            max: Date.today.to_s %>
                                 </p>
                             
                                 <p class="mb-2">
                                     <%= form.text_field :age,
                                                         data: { birthdate_calculations_target: 'age' },
-                                                        readonly: true %>
+                                                        readonly: true,
+                                                        class: 'readonly-input'%>
                                 </p>
                                 
                                 <p class="mb-2">
                                     <%= form.text_field :constellation,
-                                                        data: { birthdate_calculations_target: 'constellation' }, 
-                                                        readonly: true %>
+                                                        data: { birthdate_calculations_target: 'constellation' },
+                                                        readonly: true,
+                                                        class: 'readonly-input' %>
                                 </p>
                             </div>
                             
@@ -50,8 +53,8 @@
                                 <%= form.file_field :image %>
                             </p>
                             
-                            <%= form.submit "Update", class: "btn btn-primary" %>
-                            <%= link_to "Cancel", user_path(@user), class: "btn btn-outline-secondary" %>
+                            <%= form.submit "更新", class: "btn btn-primary btn-sm mr-2" %>
+                            <%= link_to "キャンセル", user_path(@user), class: "btn btn-dark close-btn btn-sm" %>
                         <% end %>
                     </div>
                 </div>
