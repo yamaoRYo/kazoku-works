@@ -27,12 +27,15 @@ class InvitationsController < ApplicationController
   
     if invitation && invitation.expires_at > Time.current
       session[:invitation_token] = invitation.token
-      redirect_to new_user_path
+  
+      # ここでLINEログインへのリダイレクトを行います。
+      redirect_to auth_at_provider_path(provider: 'line')
     else
       flash[:alert] = t('messages.errors.invalid_invitation')
       redirect_to root_path
     end
   end
+  
   
 
   private
